@@ -14,6 +14,7 @@ public class FoodChallenge extends Game {
 	Texture img;
 	Rectangle playerRectangle;
 	OrthographicCamera camera;
+	MenuScreen mainmenu;
 
 	public static final float worldWidth = 8f;
 	public static final float worldHeight = 4.8f;
@@ -24,8 +25,12 @@ public class FoodChallenge extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 
-		MenuScreen menuscreen = new MenuScreen(this);
-		setScreen(menuscreen);
+
+		mainmenu = new MenuScreen(this);
+
+		//MenuScreen menuscreen = new MenuScreen(this);
+		//GameScreen gameScreen = new GameScreen(this);
+		setScreen(mainmenu);
 
 		img = new Texture("SlimPlayerPH.png");
 		playerRectangle = new Rectangle(1,1,
