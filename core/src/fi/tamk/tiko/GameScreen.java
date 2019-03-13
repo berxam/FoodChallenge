@@ -10,6 +10,10 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+
+/**
+ * if(inputIsTouched) ... ELSE {scrollaa ruudun mukana}
+ */
 public class GameScreen implements Screen {
   //  SpriteBatch batch;
     FoodChallenge game;
