@@ -10,8 +10,13 @@ import com.badlogic.gdx.math.Vector3;
 
 public class MenuScreen implements Screen {
     FoodChallenge game;
+
     Texture background;
+
     Rectangle play;
+    // Rectangle stats;
+    // Rectangle settings;
+
     OrthographicCamera camera;
 
     MenuScreen (FoodChallenge game) {
@@ -19,10 +24,12 @@ public class MenuScreen implements Screen {
 
         background = new Texture("MainMenuScreen.png");
 
+        play = new Rectangle(48f, 480f, 304f, 64f);
+        // stats = new Rectangle(48f, 368f, 304f, 64f);
+        // settings = new Rectangle(48f, 259f, 304f, 64f);
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 400, 800);
-
-        play = new Rectangle(48f, 480f, 304f, 64f);
     }
 
     @Override
