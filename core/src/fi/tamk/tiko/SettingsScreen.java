@@ -8,25 +8,21 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-public class MenuScreen implements Screen {
+public class SettingsScreen implements Screen {
     FoodChallenge game;
 
     Texture background;
 
-    Rectangle play;
-    Rectangle stats;
-    Rectangle settings;
+    Rectangle backButton;
 
     OrthographicCamera camera;
 
-    MenuScreen (FoodChallenge game) {
+    SettingsScreen(FoodChallenge game) {
         this.game = game;
 
-        background = new Texture("MainMenuScreen.png");
+        background = new Texture("SettingsScreen.png");
 
-        play = new Rectangle(48f, 480f, 304f, 64f);
-        stats = new Rectangle(48f, 368f, 304f, 64f);
-        settings = new Rectangle(48f, 259f, 304f, 64f);
+        backButton = new Rectangle(0, 0, 400f, 800f);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 400, 800);
@@ -57,14 +53,8 @@ public class MenuScreen implements Screen {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
 
-            if (play.contains(touchPos.x, touchPos.y)) {
-                game.setScreen(new GameScreen(game));
-                dispose();
-            } else if (stats.contains(touchPos.x, touchPos.y)) {
-                game.setScreen(new StatsScreen(game));
-                dispose();
-            } else if (settings.contains(touchPos.x, touchPos.y)) {
-                game.setScreen(new SettingsScreen(game));
+            if (backButton.contains(touchPos.x, touchPos.y)) {
+                game.setScreen(new MenuScreen(game));
                 dispose();
             }
         }
@@ -95,3 +85,4 @@ public class MenuScreen implements Screen {
 
     }
 }
+
