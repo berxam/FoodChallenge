@@ -14,6 +14,11 @@ public class FoodChallenge extends Game {
 	Texture img;
 	Rectangle playerRectangle;
 	OrthographicCamera camera;
+
+	public static final float worldWidth = 8f;
+	public static final float worldHeight = 4.8f;
+	public static final float pixelWidth = 800f;
+	public static final float pixelHeight = 480f;
 	
 	@Override
 	public void create () {
@@ -23,7 +28,7 @@ public class FoodChallenge extends Game {
 		setScreen(menuscreen);
 
 		img = new Texture("SlimPlayerPH.png");
-		playerRectangle = new com.badlogic.gdx.math.Rectangle(1,1,
+		playerRectangle = new Rectangle(1,1,
 				1.5f, 1f);
 
 		camera = new OrthographicCamera();
