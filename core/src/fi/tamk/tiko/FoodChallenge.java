@@ -14,10 +14,6 @@ public class FoodChallenge extends Game {
 	Texture img;
 	Rectangle playerRectangle;
 	OrthographicCamera camera;
-
-    public SpriteBatch getBatch() {
-        return batch;
-    }
 	
 	@Override
 	public void create () {
@@ -68,14 +64,9 @@ public class FoodChallenge extends Game {
 
 			//System.out.println("x = " + touchPos.x);
 			//System.out.println("y = " + touchPos.y);
-
 		}
 
 		batch.end();
-
-
-
-
 	}
 
 	@Override
@@ -93,4 +84,8 @@ public class FoodChallenge extends Game {
 		batch.dispose();
 		img.dispose();
 	}
+
+    public SpriteBatch getBatch() {
+        return batch;
+    }
 }
