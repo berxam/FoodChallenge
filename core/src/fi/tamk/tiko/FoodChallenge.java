@@ -14,7 +14,7 @@ public class FoodChallenge extends Game {
 	Texture img;
 	Rectangle playerRectangle;
 	OrthographicCamera camera;
-	MenuScreen mainmenu;
+	//MenuScreen mainmenu;
 
 	public static final float worldWidth = 8f;
 	public static final float worldHeight = 4.8f;
@@ -26,11 +26,12 @@ public class FoodChallenge extends Game {
 		batch = new SpriteBatch();
 
 
-		mainmenu = new MenuScreen(this);
+		MenuScreen mainmenu = new MenuScreen(this);
 
 		//MenuScreen menuscreen = new MenuScreen(this);
 		//GameScreen gameScreen = new GameScreen(this);
-		setScreen(mainmenu);
+        setScreen(mainmenu);
+
 
 		img = new Texture("SlimPlayerPH.png");
 		playerRectangle = new Rectangle(1,1,
@@ -48,6 +49,8 @@ public class FoodChallenge extends Game {
 
 	@Override
 	public void render () {
+	    super.render();
+	    /*
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -74,9 +77,11 @@ public class FoodChallenge extends Game {
 
 			//System.out.println("x = " + touchPos.x);
 			//System.out.println("y = " + touchPos.y);
+
 		}
 
 		batch.end();
+		*/
 	}
 
 	@Override
