@@ -20,7 +20,7 @@ public class MenuScreen implements Screen {
         background = new Texture("MainMenuScreen.png");
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 480, 800);
+        camera.setToOrtho(false, 400, 800);
 
         play = new Rectangle(48f, 480f, 304f, 64f);
     }
@@ -43,6 +43,18 @@ public class MenuScreen implements Screen {
         game.batch.end();
 
         checkPresses();
+    }
+
+    private void checkPresses() {
+        if(Gdx.input.justTouched()) {
+            Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(touchPos);
+
+            if (play.contains(touchPos.x, touchPos.y)) {
+                game.setScreen(new GameScreen(game));
+                dispose();
+            }
+        }
     }
 
     @Override
@@ -68,17 +80,5 @@ public class MenuScreen implements Screen {
     @Override
     public void dispose() {
 
-    }
-
-    private void checkPresses() {
-        if(Gdx.input.justTouched()) {
-            Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-            camera.unproject(touchPos);
-
-            if (play.contains(touchPos.x, touchPos.y)) {
-                game.setScreen(new GameScreen(game));
-                dispose();
-            }
-        }
     }
 }
