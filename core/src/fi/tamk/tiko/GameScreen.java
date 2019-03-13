@@ -19,21 +19,12 @@ public class GameScreen implements Screen {
     Texture background;
     OrthographicCamera camera;
     Player player;
-   // Stage stage;
-   // PlayerActor PlayerActor;
+
 
 
 
     GameScreen(FoodChallenge game) {
         this.game = game;
-      //  batch = game.getBatch();
-       // stage = new Stage(new FitViewport(4.8f, 8), batch);
-       // Gdx.input.setInputProcessor(stage);
-       // PlayerActor = new PlayerActor();
-      //  carrot = new Texture("Carrot.png");
-       // slimPlayer = new Texture("SlimPlayerPH.png");
-      //  burger = new Texture("Burger.png");
-       // stage.addActor(PlayerActor);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 400, 800);
         player = new Player();
