@@ -11,11 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class GameScreen implements Screen {
-    SpriteBatch batch;
+  //  SpriteBatch batch;
     FoodChallenge game;
     Texture burger;
     Texture carrot;
     Texture slimPlayer;
+    Texture background;
     OrthographicCamera camera;
     Player player;
    // Stage stage;
@@ -25,7 +26,7 @@ public class GameScreen implements Screen {
 
     GameScreen(FoodChallenge game) {
         this.game = game;
-        batch = game.getBatch();
+      //  batch = game.getBatch();
        // stage = new Stage(new FitViewport(4.8f, 8), batch);
        // Gdx.input.setInputProcessor(stage);
        // PlayerActor = new PlayerActor();
@@ -34,8 +35,9 @@ public class GameScreen implements Screen {
       //  burger = new Texture("Burger.png");
        // stage.addActor(PlayerActor);
         camera = new OrthographicCamera();
-        camera.setToOrtho(true, 400, 800);
+        camera.setToOrtho(false, 400, 800);
         player = new Player();
+        background = new Texture("tempbackground.jpg");
 
 
 
@@ -53,23 +55,25 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        camera.update();
+        //camera.update();
         game.batch.setProjectionMatrix(camera.combined);
        // stage.act(Gdx.graphics.getDeltaTime());
        // stage.draw();
       //  camera = new OrthographicCamera();
        // camera.setToOrtho(false, 4.8f, 8);
 
-        batch.begin();
+        game.batch.begin();
 
-        batch.draw(player.playerTexture,player.getPlayerX(),player.playerY,
+        game.batch.draw(background,0,0,800f,800f);
+
+        game.batch.draw(player.playerTexture,player.getPlayerX(),player.playerY,
                 player.getPlayerRectangle().getWidth(),player.getPlayerRectangle().getHeight());
 
       //  batch.setProjectionMatrix(camera.combined);
 
 
 
-        batch.end();
+        game.batch.end();
 
         if (Gdx.input.isTouched()) {
             int realX = Gdx.input.getX();
@@ -79,8 +83,8 @@ public class GameScreen implements Screen {
 
             camera.unproject(touchPos);
 
-            player.playerX = realX;
-            player.playerY = realY;
+            player.playerX = touchPos.x - 30f;
+            player.playerY = touchPos.y + 30f;
 
         }
 
