@@ -20,7 +20,7 @@ public class StatsScreen implements Screen {
     StatsScreen(FoodChallenge game) {
         this.game = game;
 
-        background = new Texture("MainMenuScreen.png");
+        background = new Texture("StatisticsScreen.png");
 
         backButton = new Rectangle(0, 0, 400f, 800f);
 
