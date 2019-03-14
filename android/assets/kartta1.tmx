@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="15" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="11">
+ <tileset firstgid="1" name="tilesheet" tilewidth="32" tileheight="32" tilecount="4" columns="2">
+  <image source="tilesheet.png" width="64" height="64"/>
+ </tileset>
+ <layer id="1" name="Tile Layer 1" width="15" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztw8EJAAAMA6GD7L9zh+hXwVVTVVVVVVVfD0UKEZU=
+  </data>
+ </layer>
+ <objectgroup id="4" name="Object Layer 1">
+  <object id="1" x="131" y="3011" width="24" height="20"/>
+  <object id="2" x="323" y="2980" width="22" height="17"/>
+  <object id="3" x="165" y="2949" width="21" height="18"/>
+  <object id="4" x="258" y="2884" width="23" height="17"/>
+  <object id="5" x="132" y="2819" width="21" height="19"/>
+  <object id="6" x="258" y="2817" width="25" height="21"/>
+  <object id="7" x="101" y="2661" width="21" height="17"/>
+  <object id="8" x="293" y="2660" width="20" height="18"/>
+  <object id="9" x="229" y="2534" width="19" height="16"/>
+  <object id="10" x="131" y="2466" width="22" height="22"/>
+ </objectgroup>
+ <layer id="5" name="burgers" width="15" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt0kEKACAIBED7/6e7B0FEVtTMA1xdjAAAAADgV+X0AnHHDpl6971+96y2l1M97cxdnTUyz//lqDWkAAs=
+  </data>
+ </layer>
+</map>

@@ -5,6 +5,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 
 /**
@@ -22,6 +26,8 @@ public class GameScreen implements Screen {
     private OrthographicCamera camera;
     private float bottomCounter = 0f; // How long is the player at the bottom?
     private float scrollSpeed = 2f; // How fast does the screen scroll?
+    TiledMap tiledmap;
+    TiledMapRenderer tiledMapRenderer;
 
     /**
      * Creates camera, player and texture.
@@ -33,32 +39,35 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 400, 800);
         player = new Player();
-        background = new Texture("tempbackground.jpg");
+        // background = new Texture("tempbackground.jpg");
+        tiledmap = new TmxMapLoader().load("kartta1.tmx");
+        tiledMapRenderer = new OrthoCachedTiledMapRenderer(tiledmap);
     }
 
     @Override
     public void render(float delta) {
         clearScreen();
+        tiledMapRenderer.setView(camera);
+        tiledMapRenderer.render();
         drawEverything();
         movePlayer();
     }
 
     /**
-     * Clears the screen.
+     * Clears the screen and sets projection matrix.
      */
     public void clearScreen() {
         Gdx.gl.glClearColor(1, 1, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        game.batch.setProjectionMatrix(camera.combined);
     }
 
     /**
-     * Sets projection matrix and draws textures.
+     * Draws textures.
      */
     public void drawEverything() {
-        game.batch.setProjectionMatrix(camera.combined);
-
         game.batch.begin();
-        game.batch.draw(background, 0, 0, 800f, 800f);
+        // game.batch.draw(background, 0, 0, 800f, 800f);
         game.batch.draw(player.playerTexture,
                 player.getPlayerX(),player.playerY,
                 player.getPlayerRectangle().getWidth(),
