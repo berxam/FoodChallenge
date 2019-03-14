@@ -53,13 +53,10 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         clearScreen();
-        checkCollisions();
-        tiledMapRenderer.setView(camera);
-        tiledMapRenderer.render();
-        camera.position.y++;
-        camera.update();
+        renderTiledMap();
+        moveCamera();
         drawEverything();
-
+        checkCollisions();
         movePlayer();
     }
 
@@ -70,6 +67,22 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(1, 1, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.setProjectionMatrix(camera.combined);
+    }
+
+    /**
+     * Renders tiled map.
+     */
+    public void renderTiledMap() {
+        tiledMapRenderer.setView(camera);
+        tiledMapRenderer.render();
+    }
+
+    /**
+     * Moves camera and updates it.
+     */
+    public void moveCamera() {
+        camera.position.y++;
+        camera.update();
     }
 
     /**
