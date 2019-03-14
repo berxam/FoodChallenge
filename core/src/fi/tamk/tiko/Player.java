@@ -16,7 +16,7 @@ public class Player {
         playerY = 0f;
 
         playerRectangle = new Rectangle(0,0,
-                playerTexture.getWidth() ,playerTexture.getHeight());
+                playerTexture.getWidth() / 2 ,playerTexture.getHeight() /2);
     }
 
     public Texture getPlayerTexture() {

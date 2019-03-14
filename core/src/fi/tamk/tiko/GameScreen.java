@@ -5,12 +5,17 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * Runs the game.
@@ -48,11 +53,13 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         clearScreen();
+        checkCollisions();
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
         camera.position.y++;
         camera.update();
         drawEverything();
+
         movePlayer();
     }
 
@@ -76,6 +83,21 @@ public class GameScreen implements Screen {
                 player.getPlayerRectangle().getWidth(),
                 player.getPlayerRectangle().getHeight());
         game.batch.end();
+    }
+
+
+    private void checkCollisions() {
+        MapLayer collisionObjectLayer = (MapLayer)tiledmap.getLayers().get("Object Layer 1");
+        MapObjects mapObjects = collisionObjectLayer.getObjects();
+        Array<RectangleMapObject> rectangleObjects = mapObjects.getByType(RectangleMapObject.class);
+        for (RectangleMapObject rectangleObject : rectangleObjects) {
+            Rectangle rectangle = rectangleObject.getRectangle();
+
+            if (player.getPlayerRectangle().overlaps(rectangle)) {
+                System.out.print("Hit");
+            }
+        }
+
     }
 
     /**
