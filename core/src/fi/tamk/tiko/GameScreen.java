@@ -11,7 +11,6 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -30,11 +29,9 @@ public class GameScreen implements Screen {
     private Texture burger;
     private Texture carrot;
     private OrthographicCamera camera;
-    private float bottomCounter = 0f; // How long is the player at the bottom?
     private float scrollSpeed = 1f; // How fast does the screen scroll?
     TiledMap tiledmap;
     TiledMapRenderer tiledMapRenderer;
-    int objectLayerId = 4;
 
     /**
      * Creates camera, player and texture.
@@ -54,11 +51,10 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         clearScreen();
-        checkCollisions();
         renderTiledMap();
         moveCamera();
         drawEverything();
-
+        checkCollisions();
         movePlayer();
     }
 
@@ -100,7 +96,6 @@ public class GameScreen implements Screen {
         game.batch.end();
     }
 
-
     public void checkCollisions() {
         MapLayer collisionObjectLayer = tiledmap.getLayers().get("Object Layer 1");
         MapObjects mapObjects = collisionObjectLayer.getObjects();
@@ -114,14 +109,12 @@ public class GameScreen implements Screen {
                 System.out.print("Hit");
             }
         }
-
     }
 
     /**
      * Moves player according to input.
      *
-     * If no input is given, lets it move freely, but stops
-     * when hitting the bottom of the screen (1px padding).
+     * If no input is given, player scrolls with the camera.
      */
     public void movePlayer() {
         if (Gdx.input.isTouched()) {
@@ -133,20 +126,8 @@ public class GameScreen implements Screen {
 
             player.playerX = touchPos.x - 30f; // Positions the player
             player.playerY = touchPos.y + 30f; // just above the finger.
-
-            bottomCounter = 0;
         } else {
-            if (player.playerY > 2f) {
-                player.playerY += scrollSpeed; // Lets the player fall down.
-            } else {
-                bottomCounter += 1; // Counts time while in the bottom.
-
-                if (bottomCounter == 100) {
-                    System.out.println("KESKITY ETTÄ SAAT HETELMIÄ");
-                } else if (bottomCounter == 200) {
-                    System.out.println("HEI PLIIS YRITÄ EDES");
-                }
-            }
+            player.playerY += scrollSpeed; // Lets the player fall down.
         }
     }
 
