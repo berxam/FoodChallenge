@@ -31,9 +31,10 @@ public class GameScreen implements Screen {
     private Texture carrot;
     private OrthographicCamera camera;
     private float bottomCounter = 0f; // How long is the player at the bottom?
-    private float scrollSpeed = -1f; // How fast does the screen scroll?
+    private float scrollSpeed = 1f; // How fast does the screen scroll?
     TiledMap tiledmap;
     TiledMapRenderer tiledMapRenderer;
+    int objectLayerId = 4;
 
     /**
      * Creates camera, player and texture.
@@ -53,10 +54,11 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         clearScreen();
+        checkCollisions();
         renderTiledMap();
         moveCamera();
         drawEverything();
-        checkCollisions();
+
         movePlayer();
     }
 
@@ -81,7 +83,7 @@ public class GameScreen implements Screen {
      * Moves camera and updates it.
      */
     public void moveCamera() {
-        camera.position.y++;
+        camera.position.y += scrollSpeed;
         camera.update();
     }
 
@@ -99,14 +101,16 @@ public class GameScreen implements Screen {
     }
 
 
-    private void checkCollisions() {
-        MapLayer collisionObjectLayer = (MapLayer)tiledmap.getLayers().get("Object Layer 1");
+    public void checkCollisions() {
+        MapLayer collisionObjectLayer = tiledmap.getLayers().get("Object Layer 1");
         MapObjects mapObjects = collisionObjectLayer.getObjects();
         Array<RectangleMapObject> rectangleObjects = mapObjects.getByType(RectangleMapObject.class);
         for (RectangleMapObject rectangleObject : rectangleObjects) {
             Rectangle rectangle = rectangleObject.getRectangle();
 
-            if (player.getPlayerRectangle().overlaps(rectangle)) {
+           // player.playerRectangle.getBoundingRectangle()
+
+            if (player.playerRectangle.getBoundingRectangle().overlaps(rectangle)) {
                 System.out.print("Hit");
             }
         }
@@ -133,7 +137,7 @@ public class GameScreen implements Screen {
             bottomCounter = 0;
         } else {
             if (player.playerY > 2f) {
-                player.playerY -= scrollSpeed; // Lets the player fall down.
+                player.playerY += scrollSpeed; // Lets the player fall down.
             } else {
                 bottomCounter += 1; // Counts time while in the bottom.
 

@@ -1,11 +1,12 @@
 package fi.tamk.tiko;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 
-public class Player {
+public class Player  {
     Texture playerTexture;
-    Rectangle playerRectangle;
+    Sprite playerRectangle;
     float playerX;
     float playerY;
 
@@ -15,7 +16,7 @@ public class Player {
         playerX = 0f;
         playerY = 0f;
 
-        playerRectangle = new Rectangle(0,0,
+        playerRectangle = new Sprite(playerTexture,0,0,
                 playerTexture.getWidth() / 2 ,playerTexture.getHeight() /2);
     }
 
@@ -28,11 +29,11 @@ public class Player {
     }
 
 
-    public Rectangle getPlayerRectangle() {
+    public Sprite getPlayerRectangle() {
         return playerRectangle;
     }
 
-    public void setPlayerRectangle(Rectangle playerRectangle) {
+    public void setPlayerRectangle(Sprite playerRectangle) {
         this.playerRectangle = playerRectangle;
 
     }
@@ -43,7 +44,7 @@ public class Player {
 
     public void setPlayerX(float x) {
         playerX = x;
-        playerRectangle.x = x;
+        playerRectangle.setX(x);
     }
 
     public float getPlayerY() {
@@ -52,7 +53,7 @@ public class Player {
 
     public void setPlayerY(float y) {
         playerX = y;
-        playerRectangle.y = y;
+        playerRectangle.setY(y);
     }
 
 
