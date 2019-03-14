@@ -11,7 +11,6 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -98,7 +97,6 @@ public class GameScreen implements Screen {
         game.batch.end();
     }
 
-
     private void checkCollisions() {
         MapLayer collisionObjectLayer = (MapLayer)tiledmap.getLayers().get("Object Layer 1");
         MapObjects mapObjects = collisionObjectLayer.getObjects();
@@ -110,7 +108,6 @@ public class GameScreen implements Screen {
                 System.out.print("Hit");
             }
         }
-
     }
 
     /**
