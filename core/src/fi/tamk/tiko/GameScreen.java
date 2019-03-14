@@ -26,7 +26,7 @@ public class GameScreen implements Screen {
     private Texture carrot;
     private OrthographicCamera camera;
     private float bottomCounter = 0f; // How long is the player at the bottom?
-    private float scrollSpeed = 2f; // How fast does the screen scroll?
+    private float scrollSpeed = -1f; // How fast does the screen scroll?
     TiledMap tiledmap;
     TiledMapRenderer tiledMapRenderer;
 
@@ -50,6 +50,8 @@ public class GameScreen implements Screen {
         clearScreen();
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
+        camera.position.y++;
+        camera.update();
         drawEverything();
         movePlayer();
     }
