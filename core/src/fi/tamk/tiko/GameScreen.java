@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -32,6 +33,7 @@ public class GameScreen implements Screen {
     private float scrollSpeed = 1f; // How fast does the screen scroll?
     TiledMap tiledmap;
     TiledMapRenderer tiledMapRenderer;
+    int HP = 100;
 
     /**
      * Creates camera, player and texture.
@@ -97,18 +99,51 @@ public class GameScreen implements Screen {
     }
 
     public void checkCollisions() {
-        MapLayer collisionObjectLayer = tiledmap.getLayers().get("ObjectLayer");
-        MapObjects mapObjects = collisionObjectLayer.getObjects();
-        Array<RectangleMapObject> rectangleObjects = mapObjects.getByType(RectangleMapObject.class);
-        for (RectangleMapObject rectangleObject : rectangleObjects) {
-            Rectangle rectangle = rectangleObject.getRectangle();
+        MapLayer burgerObjectLayer = tiledmap.getLayers().get("ObjectLayer");
+        MapLayer carrotObjectLayer = tiledmap.getLayers().get("ObjectLayer2");
+        MapObjects mapObjects = burgerObjectLayer.getObjects();
+        MapObjects mapObjects1 = carrotObjectLayer.getObjects();
+        Array<RectangleMapObject> burgerObjects = mapObjects.getByType(RectangleMapObject.class);
+        Array<RectangleMapObject> carrotObjects = mapObjects1.getByType(RectangleMapObject.class);
+        for (RectangleMapObject rectangleObject : burgerObjects) {
+            Rectangle burgerRectangle = rectangleObject.getRectangle();
 
            // player.playerRectangle.getBoundingRectangle()
 
-            if (player.playerRectangle.getBoundingRectangle().overlaps(rectangle)) {
-                System.out.println("Hit");
+            if (player.playerRectangle.getBoundingRectangle().overlaps(burgerRectangle)) {
+                HP -= 1;
+                System.out.println(HP);
+                burgerObjectLayer.getObjects().remove(rectangleObject);
+                clearIt(burgerRectangle.getX(),burgerRectangle.getY());
+
             }
         }
+        for (RectangleMapObject rectangleObject : carrotObjects) {
+            Rectangle carrotRectangle = rectangleObject.getRectangle();
+
+            // player.playerRectangle.getBoundingRectangle()
+
+            if (player.playerRectangle.getBoundingRectangle().overlaps(carrotRectangle)) {
+                HP +=1;
+                System.out.println(HP);
+                carrotObjectLayer.getObjects().remove(rectangleObject);
+                clearIt(carrotRectangle.getX(), carrotRectangle.getY());
+
+            }
+        }
+
+    }
+
+    public void clearIt (float xCoord, float yCoord) {
+        int indexX = (int) xCoord / 32;
+        int indexY = (int) yCoord / 32;
+
+        //TiledMapTileLayer burgerObject = (TiledMapTileLayer) tiledmap.getLayers().get("ObjectLayer");
+        TiledMapTileLayer burgers = (TiledMapTileLayer) tiledmap.getLayers().get("burgers");
+        TiledMapTileLayer carrots = (TiledMapTileLayer) tiledmap.getLayers().get("carrots");
+        burgers.setCell(indexX,indexY,null);
+        carrots.setCell(indexX,indexY,null);
+        //burgerObject.setCell(indexX,indexY,null );
     }
 
     /**
