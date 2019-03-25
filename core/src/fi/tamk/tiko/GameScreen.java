@@ -90,14 +90,14 @@ public class GameScreen implements Screen {
         game.batch.begin();
         // game.batch.draw(background, 0, 0, 800f, 800f);
         game.batch.draw(player.playerTexture,
-                player.getPlayerX(),player.getPlayerY(),                                    ////////////////////
+                player.getPlayerX(),player.getPlayerY(),
                 player.getPlayerRectangle().getWidth(),
                 player.getPlayerRectangle().getHeight());
         game.batch.end();
     }
 
     public void checkCollisions() {
-        MapLayer collisionObjectLayer = tiledmap.getLayers().get("Object Layer 1");
+        MapLayer collisionObjectLayer = tiledmap.getLayers().get("ObjectLayer");
         MapObjects mapObjects = collisionObjectLayer.getObjects();
         Array<RectangleMapObject> rectangleObjects = mapObjects.getByType(RectangleMapObject.class);
         for (RectangleMapObject rectangleObject : rectangleObjects) {

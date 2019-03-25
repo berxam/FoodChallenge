@@ -16,8 +16,7 @@ public class Player  {
         playerX = 0f;
         playerY = 0f;
 
-        playerRectangle = new Sprite(playerTexture,0,0,
-                playerTexture.getWidth() / 2 ,playerTexture.getHeight() /2);
+        playerRectangle = new Sprite(playerTexture,0,0,playerTexture.getWidth() / 2, playerTexture.getHeight() / 2);
     }
 
     public Texture getPlayerTexture() {
@@ -25,7 +24,7 @@ public class Player  {
     }
 
     public void setPlayer(Texture playerTexture) {
-        this.playerTexture = playerTexture;
+        playerTexture = playerTexture;
     }
 
 
@@ -33,8 +32,8 @@ public class Player  {
         return playerRectangle;
     }
 
-    public void setPlayerRectangle(Sprite playerRectangle) {
-        this.playerRectangle = playerRectangle;
+    public void setPlayerRectangle(Rectangle playerRectangle) {
+        playerRectangle = playerRectangle;
 
     }
 

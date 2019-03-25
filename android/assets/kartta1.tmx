@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="15" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="31">
+<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="15" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="47">
  <tileset firstgid="1" name="tilesheet" tilewidth="32" tileheight="32" tilecount="4" columns="2">
   <image source="tilesheet.png" width="64" height="64"/>
  </tileset>
@@ -8,7 +8,7 @@
    eJztw8EJAAAMA6GD7L9zh+hXwVVTVVVVVVVfD0UKEZU=
   </data>
  </layer>
- <objectgroup id="4" name="Object Layer 1">
+ <objectgroup id="4" name="ObjectLayer">
   <object id="1" x="131" y="3011" width="24" height="20"/>
   <object id="2" x="323" y="2980" width="22" height="17"/>
   <object id="3" x="165" y="2949" width="21" height="18"/>
@@ -39,10 +39,26 @@
   <object id="28" x="356.5" y="1987.5" width="21" height="18.5"/>
   <object id="29" x="355.5" y="1956.5" width="21.5" height="17"/>
   <object id="30" x="387.5" y="1957.5" width="20.5" height="15"/>
+  <object id="31" x="450.667" y="2440" width="22.6667" height="17.3333"/>
+  <object id="32" x="414.667" y="2440" width="28" height="18.6667"/>
+  <object id="33" x="386.667" y="2432" width="20" height="16"/>
+  <object id="34" x="350.667" y="2434.67" width="32" height="21.3333"/>
+  <object id="35" x="324" y="2437.33" width="25.3333" height="13.3333"/>
+  <object id="36" x="292" y="2432" width="25.3333" height="24"/>
+  <object id="37" x="258.667" y="2432" width="29.3333" height="22.6667"/>
+  <object id="38" x="224" y="2432" width="28" height="22.6667"/>
+  <object id="39" x="193.333" y="2436" width="25.3333" height="20"/>
+  <object id="40" x="162.667" y="2434.67" width="24" height="21.3333"/>
+  <object id="41" x="128" y="2436" width="28" height="16"/>
+  <object id="42" x="100" y="2440" width="18.6667" height="14.6667"/>
+  <object id="43" x="68" y="2434.67" width="17.3333" height="17.3333"/>
+  <object id="44" x="36" y="2437.33" width="20" height="16"/>
+  <object id="45" x="2.66667" y="2432" width="25.3333" height="24"/>
+  <object id="46" x="52" y="2448"/>
  </objectgroup>
  <layer id="5" name="burgers" width="15" height="100">
   <data encoding="base64" compression="zlib">
-   eJztl9EOgCAIReX/f7oH59aaKAgIJmdrK+NyiZxlKf8AOufwGZ/pbma1D5Qea9DzofhiOsq82KlrcSt+nPFZjGWtWCx3Dkm9Z/WMtNp6Sd809JwcUPAaqFD11Frf18A4koqkF6dqvd+/t//pZP8q0rkcRR+hhmQvkr57fDtGOske0yNvu6/5/8/hRK1lrqhEeMYINVgi2b/fiGTvqclOX20v6/U9wXkA9/EAiA==
+   eJztl90OgCAIhfX9X7oL59aaCAQIFN/W1o/HQycrbe0b9MV+f5zHdH/mbQ6UjDVY+VB8IR1lXJzUzXZv/DjnsTaWtUJtuWNI6o3Vs9Nq6yW5aeg5ffQG10CFqqfWej/ujK0YSLLIqvV+/t7+2an8BtKxHEUfoYbiLJLcPf4dO51kjenR77yuOf/nkFFr2ZcmnDkwNieOcI8RarBEsn7PguV755XTSV9tL+vvewFzAU3IAJg=
   </data>
  </layer>
 </map>
