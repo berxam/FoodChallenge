@@ -90,7 +90,7 @@ public class GameScreen implements Screen {
         game.batch.begin();
         // game.batch.draw(background, 0, 0, 800f, 800f);
         game.batch.draw(player.playerTexture,
-                player.getPlayerX(),player.playerY,
+                player.getPlayerX(),player.getPlayerY(),                                    ////////////////////
                 player.getPlayerRectangle().getWidth(),
                 player.getPlayerRectangle().getHeight());
         game.batch.end();
@@ -106,7 +106,7 @@ public class GameScreen implements Screen {
            // player.playerRectangle.getBoundingRectangle()
 
             if (player.playerRectangle.getBoundingRectangle().overlaps(rectangle)) {
-                System.out.print("Hit");
+                System.out.println("Hit");
             }
         }
     }
@@ -124,10 +124,10 @@ public class GameScreen implements Screen {
             Vector3 touchPos = new Vector3(realX, realY, 0);
             camera.unproject(touchPos);
 
-            player.playerX = touchPos.x - 30f; // Positions the player
-            player.playerY = touchPos.y + 30f; // just above the finger.
+            player.setPlayerX(touchPos.x ); // Positions the player
+            player.setPlayerY(touchPos.y ); // just above the finger.
         } else {
-            player.playerY += scrollSpeed; // Lets the player fall down.
+            player.setPlayerY(player.getPlayerY()+scrollSpeed); // Lets the player fall down.
         }
     }
 

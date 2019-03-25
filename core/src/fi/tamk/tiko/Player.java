@@ -52,7 +52,7 @@ public class Player  {
     }
 
     public void setPlayerY(float y) {
-        playerX = y;
+        playerY = y;
         playerRectangle.setY(y);
     }
 
