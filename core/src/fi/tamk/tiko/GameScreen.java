@@ -73,6 +73,7 @@ public class GameScreen implements Screen {
         drawEverything();
         checkCollisions();
         movePlayer();
+        isGameOver();
     }
 
     /**
@@ -196,6 +197,14 @@ public class GameScreen implements Screen {
             player.setPlayerY(touchPos.y + 30f); // just above the finger.
         } else {
             player.setPlayerY(player.getPlayerY()+scrollSpeed); // Makes player move with camera.
+        }
+    }
+
+    public void isGameOver() {
+        if (player.getPlayerY() > 3200f || HP < 0) {
+            game.prefs.putInteger("highscore", HP);
+            game.setScreen(new MenuScreen(game));
+            dispose();
         }
     }
 

@@ -5,6 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
@@ -12,8 +14,10 @@ public class StatsScreen implements Screen {
     FoodChallenge game;
 
     Texture background;
-
     Rectangle backButton;
+    FreeTypeFontGenerator freeTypeFontGenerator;
+    BitmapFont bitmapFont;
+    int highScore;
 
     OrthographicCamera camera;
 
@@ -21,8 +25,12 @@ public class StatsScreen implements Screen {
         this.game = game;
 
         background = new Texture("StatisticsScreen.png");
-
         backButton = new Rectangle(0, 0, 400f, 800f);
+        freeTypeFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("ostrich-regular.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 36;
+        bitmapFont = freeTypeFontGenerator.generateFont(parameter);
+        highScore = game.prefs.getInteger("highscore", 0);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 400, 800);
@@ -43,6 +51,7 @@ public class StatsScreen implements Screen {
 
         game.batch.begin();
         game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
+        bitmapFont.draw(game.batch, "Highscore: " + highScore, 50f, 600f);
         game.batch.end();
 
         checkPresses();
