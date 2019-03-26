@@ -23,7 +23,7 @@ import com.badlogic.gdx.utils.Array;
  * Runs the game.
  */
 public class GameScreen implements Screen {
-
+    // Muokkaus committia varten
     protected FoodChallenge game;
 
     private Player player;
