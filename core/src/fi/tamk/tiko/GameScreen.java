@@ -1,12 +1,11 @@
 package fi.tamk.tiko;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -29,17 +28,13 @@ public class GameScreen implements Screen {
     private Player player;
     private Texture slimPlayer;
     private Texture background;
-    private Texture banner;
+    private Texture burger;
+    private Texture carrot;
     private OrthographicCamera camera;
     private float scrollSpeed = 1f; // How fast does the screen scroll?
     TiledMap tiledmap;
     TiledMapRenderer tiledMapRenderer;
     int HP = 100;
-
-    FreeTypeFontGenerator freeTypeFontGenerator;
-    BitmapFont bitmapFont;
-    float scorePosY;
-    float bannerPosY;
 
     /**
      * Creates camera, player and texture.
@@ -52,28 +47,26 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, 400, 800);
         player = new Player();
         // background = new Texture("tempbackground.jpg");
-        banner = new Texture("boringbanner.png");
         tiledmap = new TmxMapLoader().load("kartta1.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledmap);
 
-        freeTypeFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("ostrich-regular.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 36;
-        bitmapFont = freeTypeFontGenerator.generateFont(parameter);
-        scorePosY = 785f;
-        bannerPosY = 750f;
     }
+
+
 
     @Override
     public void render(float delta) {
         clearScreen();
         renderTiledMap();
         moveCamera();
-        updateBannerPos();
+        movePlayer();
         drawEverything();
         checkCollisions();
-        movePlayer();
-        isGameOver();
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            game.setScreen(new MenuScreen(game));
+        }
+
+
     }
 
     /**
@@ -102,15 +95,7 @@ public class GameScreen implements Screen {
     }
 
     /**
-     * Updates banner position according to camera scroll.
-     */
-    public void updateBannerPos() {
-        bannerPosY += scrollSpeed;
-        scorePosY += scrollSpeed;
-    }
-
-    /**
-     * Draws player, banner and font.
+     * Draws textures.
      */
     public void drawEverything() {
         game.batch.begin();
@@ -119,16 +104,9 @@ public class GameScreen implements Screen {
                 player.getPlayerX(),player.getPlayerY(),
                 player.getPlayerRectangle().getWidth(),
                 player.getPlayerRectangle().getHeight());
-        game.batch.draw(banner, 0f, bannerPosY);
-        bitmapFont.draw(game.batch, "HP: " + HP, 25f, scorePosY);
         game.batch.end();
     }
 
-    /**
-     * Checks if objects are being hit by the player.
-     *
-     * If so, adds score according to object type and calls clearIt().
-     */
     public void checkCollisions() {
         MapLayer burgerObjectLayer = tiledmap.getLayers().get("ObjectLayer");
         MapLayer carrotObjectLayer = tiledmap.getLayers().get("ObjectLayer2");
@@ -136,18 +114,19 @@ public class GameScreen implements Screen {
         MapObjects mapObjects1 = carrotObjectLayer.getObjects();
         Array<RectangleMapObject> burgerObjects = mapObjects.getByType(RectangleMapObject.class);
         Array<RectangleMapObject> carrotObjects = mapObjects1.getByType(RectangleMapObject.class);
-
         for (RectangleMapObject rectangleObject : burgerObjects) {
             Rectangle burgerRectangle = rectangleObject.getRectangle();
+
+           // player.playerRectangle.getBoundingRectangle()
 
             if (player.playerRectangle.getBoundingRectangle().overlaps(burgerRectangle)) {
                 HP -= 1;
                 System.out.println(HP);
                 burgerObjectLayer.getObjects().remove(rectangleObject);
                 clearIt(burgerRectangle.getX(),burgerRectangle.getY());
+
             }
         }
-
         for (RectangleMapObject rectangleObject : carrotObjects) {
             Rectangle carrotRectangle = rectangleObject.getRectangle();
 
@@ -158,19 +137,16 @@ public class GameScreen implements Screen {
                 System.out.println(HP);
                 carrotObjectLayer.getObjects().remove(rectangleObject);
                 clearIt(carrotRectangle.getX(), carrotRectangle.getY());
+
             }
         }
+
     }
 
-    /**
-     * Clears objects when the player hits them.
-     *
-     * @param xCoord
-     * @param yCoord
-     */
-    public void clearIt(float xCoord, float yCoord) {
+    public void clearIt (float xCoord, float yCoord) {
         int indexX = (int) xCoord / 32;
         int indexY = (int) yCoord / 32;
+
 
         //TiledMapTileLayer burgerObject = (TiledMapTileLayer) tiledmap.getLayers().get("ObjectLayer");
         TiledMapTileLayer burgers = (TiledMapTileLayer) tiledmap.getLayers().get("burgers");
@@ -186,30 +162,31 @@ public class GameScreen implements Screen {
      * If no input is given, player scrolls with the camera.
      */
     public void movePlayer() {
+
+
         if (Gdx.input.isTouched()) {
             int realX = Gdx.input.getX();
             int realY = Gdx.input.getY();
 
             Vector3 touchPos = new Vector3(realX, realY, 0);
             camera.unproject(touchPos);
+           // float distanceX = player.getPlayerRectangle().getX() - realX;
+           // float distanceY = player.getPlayerRectangle().getY() - realY;
 
-            player.setPlayerX(touchPos.x - 30f); // Positions the player
-            player.setPlayerY(touchPos.y + 30f); // just above the finger.
+
+
+                player.setPlayerX(touchPos.x - 10); // Positions the player
+                player.setPlayerY(touchPos.y + 50); // just above the finger.
+            //System.out.println(realX + " " + realY);
+
         } else {
-            player.setPlayerY(player.getPlayerY()+scrollSpeed); // Makes player move with camera.
-        }
-    }
-
-    public void isGameOver() {
-        if (player.getPlayerY() > 3200f || HP < 0) {
-            game.prefs.putInteger("highscore", HP);
-            game.setScreen(new MenuScreen(game));
-            dispose();
+            player.setPlayerY(player.getPlayerY()+scrollSpeed); // Lets the player fall down.
         }
     }
 
     @Override
     public void show() {
+        Gdx.input.setCatchBackKey(true);
 
     }
 
