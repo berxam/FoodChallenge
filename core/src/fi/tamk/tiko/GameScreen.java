@@ -32,7 +32,7 @@ public class GameScreen implements Screen {
     private Texture background;
     private Texture banner;
     private OrthographicCamera camera;
-    private float scrollSpeed = 1f; // How fast does the screen scroll?
+    private float scrollSpeed = 3f; // How fast does the screen scroll?
     TiledMap tiledmap;
     TiledMapRenderer tiledMapRenderer;
     int HP = 100;
@@ -208,6 +208,7 @@ public class GameScreen implements Screen {
     public void isGameOver() {
         if (player.getPlayerY() > 3200f || HP < 0) {
             game.prefs.putInteger("highscore", HP);
+            game.prefs.flush();
             game.setScreen(new MenuScreen(game));
             dispose();
         }
