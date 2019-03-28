@@ -3,6 +3,8 @@ package fi.tamk.tiko;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -27,12 +29,15 @@ public class GameScreen implements Screen {
     // Muokkaus committia varten
     protected FoodChallenge game;
 
+    Music backgroundMusic;
+    Sound eatsound;
+
     private Player player;
     private Texture slimPlayer;
     private Texture background;
     private Texture banner;
     private OrthographicCamera camera;
-    private float scrollSpeed = 3f; // How fast does the screen scroll?
+    private float scrollSpeed = 4f; // How fast does the screen scroll?
     TiledMap tiledmap;
     TiledMapRenderer tiledMapRenderer;
     int HP = 100;
@@ -52,9 +57,13 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 400, 800);
         player = new Player();
+        eatsound = Gdx.audio.newSound(Gdx.files.internal("eatsound.mp3"));
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("summerhit.mp3"));
+        backgroundMusic.setLooping(true);
+        backgroundMusic.play();
         // background = new Texture("tempbackground.jpg");
         banner = new Texture("boringbanner.png");
-        tiledmap = new TmxMapLoader().load("kartta1.tmx");
+        tiledmap = new TmxMapLoader().load("map2.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledmap);
 
         freeTypeFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("ostrich-regular.ttf"));
@@ -78,6 +87,7 @@ public class GameScreen implements Screen {
         isGameOver();
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
             game.setScreen(new MenuScreen(game));
+            backgroundMusic.stop();
         }
     }
 
@@ -150,6 +160,7 @@ public class GameScreen implements Screen {
                 System.out.println(HP);
                 burgerObjectLayer.getObjects().remove(rectangleObject);
                 clearIt(burgerRectangle.getX(),burgerRectangle.getY());
+                eatsound.play();
             }
         }
 
@@ -163,6 +174,7 @@ public class GameScreen implements Screen {
                 System.out.println(HP);
                 carrotObjectLayer.getObjects().remove(rectangleObject);
                 clearIt(carrotRectangle.getX(), carrotRectangle.getY());
+                eatsound.play();
             }
         }
     }
@@ -174,8 +186,8 @@ public class GameScreen implements Screen {
      * @param yCoord
      */
     public void clearIt(float xCoord, float yCoord) {
-        int indexX = (int) xCoord / 32;
-        int indexY = (int) yCoord / 32;
+        int indexX = (int) xCoord / 48;
+        int indexY = (int) yCoord / 48;
 
         //TiledMapTileLayer burgerObject = (TiledMapTileLayer) tiledmap.getLayers().get("ObjectLayer");
         TiledMapTileLayer burgers = (TiledMapTileLayer) tiledmap.getLayers().get("burgers");
@@ -206,10 +218,11 @@ public class GameScreen implements Screen {
     }
 
     public void isGameOver() {
-        if (player.getPlayerY() > 3200f || HP < 0) {
+        if (player.getPlayerY() > 6200f || HP < 0) {
             game.prefs.putInteger("highscore", HP);
             game.prefs.flush();
             game.setScreen(new MenuScreen(game));
+            backgroundMusic.stop();
             dispose();
         }
     }

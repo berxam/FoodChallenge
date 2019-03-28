@@ -12,7 +12,7 @@ public class Player  {
 
 
     Player() {
-        playerTexture = new Texture("SlimPlayerPH.png");
+        playerTexture = new Texture("SlimPlayerCR.png");
         playerX = 0f;
         playerY = 0f;
 
