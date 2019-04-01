@@ -58,6 +58,7 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, 400, 800);
         player = new Player();
         eatsound = Gdx.audio.newSound(Gdx.files.internal("eatsound.mp3"));
+        eatsound.setVolume(0,0.5f);
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("summerhit.mp3"));
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
@@ -126,6 +127,7 @@ public class GameScreen implements Screen {
     public void drawEverything() {
         game.batch.begin();
         // game.batch.draw(background, 0, 0, 800f, 800f);
+        game.batch.draw(player.controlTexture,player.playerControlRectangle.x,player.playerControlRectangle.y,200,200);
         game.batch.draw(player.playerTexture,
                 player.getPlayerX(),player.getPlayerY(),
                 player.getPlayerRectangle().getWidth(),
@@ -152,7 +154,7 @@ public class GameScreen implements Screen {
             Rectangle burgerRectangle = rectangleObject.getRectangle();
 
             if (player.playerRectangle.getBoundingRectangle().overlaps(burgerRectangle)) {
-                HP -= 1;
+                HP -= 10;
                 System.out.println(HP);
                 burgerObjectLayer.getObjects().remove(rectangleObject);
                 clearIt(burgerRectangle.getX(),burgerRectangle.getY());
@@ -166,7 +168,7 @@ public class GameScreen implements Screen {
             // player.playerRectangle.getBoundingRectangle()
 
             if (player.playerRectangle.getBoundingRectangle().overlaps(carrotRectangle)) {
-                HP +=1;
+                HP +=5;
                 System.out.println(HP);
                 carrotObjectLayer.getObjects().remove(rectangleObject);
                 clearIt(carrotRectangle.getX(), carrotRectangle.getY());
@@ -199,6 +201,8 @@ public class GameScreen implements Screen {
      * If no input is given, player scrolls with the camera.
      */
     public void movePlayer() {
+        player.playerControlRectangle.setX(player.playerRectangle.getX() - 77);
+        player.playerControlRectangle.setY(player.playerRectangle.getY() - 85);
         if (Gdx.input.isTouched()) {
             int realX = Gdx.input.getX();
             int realY = Gdx.input.getY();
@@ -206,18 +210,25 @@ public class GameScreen implements Screen {
             Vector3 touchPos = new Vector3(realX, realY, 0);
             camera.unproject(touchPos);
 
-            player.setPlayerX(touchPos.x - 30f); // Positions the player
-            player.setPlayerY(touchPos.y + 30f); // just above the finger.
+
+
+            if(player.playerControlRectangle.contains(touchPos.x,touchPos.y)) {
+
+
+                player.setPlayerX(touchPos.x - 30 ); // Positions the player
+                player.setPlayerY(touchPos.y + 20); // just above the finger.
+            }
         } else {
-            player.setPlayerY(player.getPlayerY()+scrollSpeed); // Makes player move with camera.
+          //  player.setPlayerY(player.getPlayerY()+scrollSpeed); // Makes player move with camera.
         }
+        player.setPlayerY(player.getPlayerY()+scrollSpeed); // Makes player move with camera.
     }
 
     /**
      * Checks if player has reached end of map or hp and calls gameIsOver.
      */
     public void isGameOver() {
-        if (player.getPlayerY() > 6200f || HP < 0) gameIsOver();
+        if (player.getPlayerY() > 6200f || HP <= 0) gameIsOver();
 
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) gameIsOver();
     }
