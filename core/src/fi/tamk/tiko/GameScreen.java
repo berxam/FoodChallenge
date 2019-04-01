@@ -85,10 +85,6 @@ public class GameScreen implements Screen {
         checkCollisions();
         movePlayer();
         isGameOver();
-        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
-            game.setScreen(new MenuScreen(game));
-            backgroundMusic.stop();
-        }
     }
 
     /**
@@ -217,14 +213,24 @@ public class GameScreen implements Screen {
         }
     }
 
+    /**
+     * Checks if player has reached end of map or hp and calls gameIsOver.
+     */
     public void isGameOver() {
-        if (player.getPlayerY() > 6200f || HP < 0) {
-            game.prefs.putInteger("highscore", HP);
-            game.prefs.flush();
-            game.setScreen(new MenuScreen(game));
-            backgroundMusic.stop();
-            dispose();
-        }
+        if (player.getPlayerY() > 6200f || HP < 0) gameIsOver();
+
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) gameIsOver();
+    }
+
+    /**
+     * Saves current score and goes to MenuScreen.
+     */
+    public void gameIsOver() {
+        game.prefs.putInteger("highscore", HP);
+        game.prefs.flush();
+        game.setScreen(new MenuScreen(game));
+        backgroundMusic.stop();
+        dispose();
     }
 
     @Override
