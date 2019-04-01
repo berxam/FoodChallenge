@@ -13,7 +13,7 @@ public class Player  {
 
     Player() {
         playerTexture = new Texture("SlimPlayerCR.png");
-        playerX = 0f;
+        playerX = 180f;
         playerY = 0f;
 
         playerRectangle = new Sprite(playerTexture,0,0,playerTexture.getWidth() / 2, playerTexture.getHeight() / 2);
