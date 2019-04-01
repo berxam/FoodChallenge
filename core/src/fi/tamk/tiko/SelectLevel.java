@@ -11,20 +11,20 @@ import com.badlogic.gdx.math.Vector3;
 public class SelectLevel implements Screen {
     FoodChallenge game;
 
-    Texture background;
+    private Texture background;
 
-    Rectangle level1;
-    Rectangle level2;
-    Rectangle level3;
-    Rectangle level4;
+    private Rectangle level1;
+    private Rectangle level2;
+    private Rectangle level3;
+    private Rectangle level4;
 
-    float topRow = 600f;
-    float col1 = 20f;
-    float col2 = 115f;
-    float col3 = 210f;
-    float col4 = 305f;
+    private float topRow = 600f;
+    private float col1 = 20f;
+    private float col2 = 115f;
+    private float col3 = 210f;
+    private float col4 = 305f;
 
-    OrthographicCamera camera;
+    private OrthographicCamera camera;
 
     SelectLevel(FoodChallenge game) {
         this.game = game;
@@ -47,17 +47,26 @@ public class SelectLevel implements Screen {
 
     @Override
     public void render(float delta) {
+        clearScreen();
+        updateCamera();
+        drawEverything();
+        checkPresses();
+    }
+
+    private void clearScreen() {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    }
 
+    private void updateCamera() {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
+    }
 
+    private void drawEverything() {
         game.batch.begin();
         game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
         game.batch.end();
-
-        checkPresses();
     }
 
     private void checkPresses() {
