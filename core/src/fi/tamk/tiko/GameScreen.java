@@ -8,8 +8,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -26,26 +24,24 @@ import com.badlogic.gdx.utils.Array;
  * Runs the game.
  */
 public class GameScreen implements Screen {
-    // Muokkaus committia varten
+
     protected FoodChallenge game;
 
-    Music backgroundMusic;
-    Sound eatsound;
-
-    private Player player;
-    private Texture slimPlayer;
-    private Texture background;
-    private Texture banner;
     private OrthographicCamera camera;
-    private float scrollSpeed = 4f; // How fast does the screen scroll?
-    TiledMap tiledmap;
-    TiledMapRenderer tiledMapRenderer;
-    int HP = 100;
+    private Player player;
+    private Music backgroundMusic;
+    private Sound eatsound;
+    private Texture banner;
 
-    FreeTypeFontGenerator freeTypeFontGenerator;
-    BitmapFont bitmapFont;
-    float scorePosY;
-    float bannerPosY;
+    private TiledMap tiledmap;
+    private TiledMapRenderer tiledMapRenderer;
+    private MapLayer burgerLayer;
+    private MapLayer carrotLayer;
+
+    private float scrollSpeed = 4f; // How fast does the screen scroll?
+    private float scorePosY;
+    private float bannerPosY;
+    private int HP = 100;
 
     /**
      * Creates camera, player and texture.
@@ -57,22 +53,20 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 400, 800);
         player = new Player();
+
         eatsound = Gdx.audio.newSound(Gdx.files.internal("eatsound.mp3"));
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("summerhit.mp3"));
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
-        // background = new Texture("tempbackground.jpg");
-        banner = new Texture("boringbanner.png");
+
         tiledmap = new TmxMapLoader().load("map2.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledmap);
+        burgerLayer = tiledmap.getLayers().get("ObjectLayer");
+        carrotLayer = tiledmap.getLayers().get("ObjectLayer2");
 
-        freeTypeFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("ostrich-regular.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 36;
-        bitmapFont = freeTypeFontGenerator.generateFont(parameter);
+        banner = new Texture("boringbanner.png");
         scorePosY = 785f;
         bannerPosY = 750f;
-
     }
 
     @Override
@@ -82,7 +76,10 @@ public class GameScreen implements Screen {
         moveCamera();
         updateBannerPos();
         drawEverything();
-        checkCollisions();
+
+        checkCollisions(burgerLayer);
+        checkCollisions(carrotLayer);
+
         movePlayer();
         isGameOver();
     }
@@ -125,13 +122,12 @@ public class GameScreen implements Screen {
      */
     public void drawEverything() {
         game.batch.begin();
-        // game.batch.draw(background, 0, 0, 800f, 800f);
         game.batch.draw(player.playerTexture,
                 player.getPlayerX(),player.getPlayerY(),
                 player.getPlayerRectangle().getWidth(),
                 player.getPlayerRectangle().getHeight());
         game.batch.draw(banner, 0f, bannerPosY);
-        bitmapFont.draw(game.batch, "HP: " + HP, 25f, scorePosY);
+        game.bitmapFont.draw(game.batch, "HP: " + HP, 25f, scorePosY);
         game.batch.end();
     }
 
@@ -140,36 +136,26 @@ public class GameScreen implements Screen {
      *
      * If so, adds score according to object type and calls clearIt().
      */
-    public void checkCollisions() {
-        MapLayer burgerObjectLayer = tiledmap.getLayers().get("ObjectLayer");
-        MapLayer carrotObjectLayer = tiledmap.getLayers().get("ObjectLayer2");
-        MapObjects mapObjects = burgerObjectLayer.getObjects();
-        MapObjects mapObjects1 = carrotObjectLayer.getObjects();
-        Array<RectangleMapObject> burgerObjects = mapObjects.getByType(RectangleMapObject.class);
-        Array<RectangleMapObject> carrotObjects = mapObjects1.getByType(RectangleMapObject.class);
+    public void checkCollisions(MapLayer objectLayer) {
+        MapLayer layer = objectLayer;
+        MapObjects mapObjects = layer.getObjects();
+        Array<RectangleMapObject> mapObjectsArray = mapObjects.getByType(RectangleMapObject.class);
 
-        for (RectangleMapObject rectangleObject : burgerObjects) {
-            Rectangle burgerRectangle = rectangleObject.getRectangle();
+        for (RectangleMapObject rectangleObject : mapObjectsArray) {
+            Rectangle objectRectangle = rectangleObject.getRectangle();
 
-            if (player.playerRectangle.getBoundingRectangle().overlaps(burgerRectangle)) {
-                HP -= 1;
+            if (player.playerRectangle.getBoundingRectangle().overlaps(objectRectangle)) {
+                if (layer == burgerLayer) {
+                    HP -= 1;
+                    // animaatio pisteistä
+                } else if (layer == carrotLayer) {
+                    HP += 1;
+                }
+
                 System.out.println(HP);
-                burgerObjectLayer.getObjects().remove(rectangleObject);
-                clearIt(burgerRectangle.getX(),burgerRectangle.getY());
-                eatsound.play();
-            }
-        }
 
-        for (RectangleMapObject rectangleObject : carrotObjects) {
-            Rectangle carrotRectangle = rectangleObject.getRectangle();
-
-            // player.playerRectangle.getBoundingRectangle()
-
-            if (player.playerRectangle.getBoundingRectangle().overlaps(carrotRectangle)) {
-                HP +=1;
-                System.out.println(HP);
-                carrotObjectLayer.getObjects().remove(rectangleObject);
-                clearIt(carrotRectangle.getX(), carrotRectangle.getY());
+                layer.getObjects().remove(rectangleObject);
+                clearIt(objectRectangle.getX(),objectRectangle.getY());
                 eatsound.play();
             }
         }
@@ -236,7 +222,6 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setCatchBackKey(true);
-
     }
 
     @Override
