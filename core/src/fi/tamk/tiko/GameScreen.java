@@ -38,10 +38,12 @@ public class GameScreen implements Screen {
     private MapLayer burgerLayer;
     private MapLayer carrotLayer;
 
-    private float scrollSpeed = 4f; // How fast does the screen scroll?
+    private float scrollSpeed = 8f; // How fast does the screen scroll?
     private float scorePosY;
     private float bannerPosY;
     private int HP = 100;
+
+    private boolean gameIsOn = true;
 
     /**
      * Creates camera, player and texture.
@@ -71,17 +73,22 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        clearScreen();
-        renderTiledMap();
-        moveCamera();
-        updateBannerPos();
-        drawEverything();
+        if (gameIsOn) {
+            clearScreen();
+            renderTiledMap();
+            moveCamera();
+            updateBannerPos();
+            drawEverything();
 
-        checkCollisions(burgerLayer);
-        checkCollisions(carrotLayer);
+            checkCollisions(burgerLayer);
+            checkCollisions(carrotLayer);
 
-        movePlayer();
-        isGameOver();
+            movePlayer();
+            isGameOver();
+        } else {
+            System.out.println(player.getPlayerY());
+            gameIsOver();
+        }
     }
 
     /**
@@ -214,20 +221,48 @@ public class GameScreen implements Screen {
      * Checks if player has reached end of map or hp and calls gameIsOver.
      */
     public void isGameOver() {
-        if (player.getPlayerY() > 6200f || HP <= 0) gameIsOver();
+        if (player.getPlayerY() > 6200f || HP <= 0) gameIsOn = false;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) gameIsOver();
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) gameIsOn = false;
     }
 
     /**
      * Saves current score and goes to MenuScreen.
      */
     public void gameIsOver() {
-        game.prefs.putInteger("highscore", HP);
-        game.prefs.flush();
-        game.setScreen(new MenuScreen(game));
-        backgroundMusic.stop();
-        dispose();
+        boolean goToMenu = false;
+
+        Texture retryTexture = new Texture("gameOver.png");
+        Texture menuTexture = new Texture("menuBtn.png");
+        Rectangle retryButton = new Rectangle(25f, bannerPosY-275f, retryTexture.getWidth(), retryTexture.getHeight());
+        Rectangle menuButton = new Rectangle(25f, bannerPosY-475f, menuTexture.getWidth(), menuTexture.getHeight());
+
+        game.batch.begin();
+        game.batch.draw(retryTexture, retryButton.getX(), retryButton.getY(), retryTexture.getWidth(), retryTexture.getHeight());
+        game.batch.draw(menuTexture, menuButton.getX(), menuButton.getY(), menuTexture.getWidth(), menuTexture.getHeight());
+        game.batch.end();
+
+        if(Gdx.input.justTouched()) {
+            Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(touchPos);
+
+            if (retryButton.contains(touchPos.x, touchPos.y)) {
+                backgroundMusic.stop();
+                game.setScreen(new GameScreen(game));
+            }
+
+            if (menuButton.contains(touchPos.x, touchPos.y)) {
+                goToMenu = true;
+            }
+        }
+
+        if (goToMenu) {
+            game.prefs.putInteger("highscore", HP);
+            game.prefs.flush();
+            game.setScreen(new MenuScreen(game));
+            backgroundMusic.stop();
+            dispose();
+        }
     }
 
     @Override
