@@ -11,12 +11,12 @@ import com.badlogic.gdx.math.Vector3;
 public class StatsScreen implements Screen {
     FoodChallenge game;
 
-    Texture background;
-    Rectangle backButton;
+    private Texture background;
+    private Rectangle backButton;
 
-    int highScore;
+    private int highScore;
 
-    OrthographicCamera camera;
+    private OrthographicCamera camera;
 
     StatsScreen(FoodChallenge game) {
         this.game = game;
@@ -31,24 +31,28 @@ public class StatsScreen implements Screen {
     }
 
     @Override
-    public void show() {
-
+    public void render(float delta) {
+        clearScreen();
+        updateCamera();
+        drawEverything();
+        checkPresses();
     }
 
-    @Override
-    public void render(float delta) {
+    private void clearScreen() {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    }
 
+    private void updateCamera() {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
+    }
 
+    private void drawEverything() {
         game.batch.begin();
         game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
         game.bitmapFont.draw(game.batch, "Highscore: " + highScore, 50f, 600f);
         game.batch.end();
-
-        checkPresses();
     }
 
     private void checkPresses() {
@@ -61,6 +65,11 @@ public class StatsScreen implements Screen {
                 dispose();
             }
         }
+    }
+
+    @Override
+    public void show() {
+
     }
 
     @Override

@@ -11,13 +11,13 @@ import com.badlogic.gdx.math.Vector3;
 public class MenuScreen implements Screen {
     FoodChallenge game;
 
-    Texture background;
+    private Texture background;
 
-    Rectangle play;
-    Rectangle stats;
-    Rectangle settings;
+    private Rectangle play;
+    private Rectangle stats;
+    private Rectangle settings;
 
-    OrthographicCamera camera;
+    private OrthographicCamera camera;
 
     MenuScreen (FoodChallenge game) {
         this.game = game;
@@ -33,26 +33,27 @@ public class MenuScreen implements Screen {
     }
 
     @Override
-    public void show() {
-        Gdx.input.setCatchBackKey(true);
-
-    }
-
-    @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
-
-        game.batch.begin();
-        game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
-        game.batch.end();
-
+        clearScreen();
+        updateCamera();
+        drawEverything();
         checkPresses();
     }
 
+    private void clearScreen() {
+        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    }
+
+    private void updateCamera() {
+        camera.update();
+        game.batch.setProjectionMatrix(camera.combined);
+    }
+    private void drawEverything() {
+        game.batch.begin();
+        game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
+        game.batch.end();
+    }
     private void checkPresses() {
         if(Gdx.input.justTouched()) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -70,6 +71,11 @@ public class MenuScreen implements Screen {
                 dispose();
             }
         }
+    }
+
+    @Override
+    public void show() {
+        Gdx.input.setCatchBackKey(true);
     }
 
     @Override
