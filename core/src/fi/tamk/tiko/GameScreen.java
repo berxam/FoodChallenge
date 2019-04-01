@@ -39,7 +39,7 @@ public class GameScreen implements Screen {
     private MapLayer carrotLayer;
     // different foods here
 
-    private float scrollSpeed = 8f; // How fast does the screen scroll?
+    private float scrollSpeed = 4f; // How fast does the screen scroll?
     private float scorePosY;
     private float bannerPosY;
     private int HP = 100;
@@ -58,7 +58,7 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, 400, 800);
         player = new Player();
         eatsound = Gdx.audio.newSound(Gdx.files.internal("eatsound.mp3"));
-        eatsound.setVolume(0,0.5f);
+        //eatsound.setVolume(0,0.5f);
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("summerhit.mp3"));
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
@@ -94,7 +94,7 @@ public class GameScreen implements Screen {
      * Clears the screen and sets projection matrix.
      */
     public void clearScreen() {
-        Gdx.gl.glClearColor(1, 1, 0, 1);
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.setProjectionMatrix(camera.combined);
     }
@@ -128,8 +128,6 @@ public class GameScreen implements Screen {
      */
     public void drawEverything() {
         game.batch.begin();
-        // game.batch.draw(background, 0, 0, 800f, 800f);
-        game.batch.draw(player.controlTexture,player.playerControlRectangle.x,player.playerControlRectangle.y,200,200);
         game.batch.draw(player.playerTexture,
                 player.getPlayerX(),player.getPlayerY(),
                 player.getPlayerRectangle().getWidth(),
@@ -166,14 +164,14 @@ public class GameScreen implements Screen {
                     HP -= 1;
                     // animaatio pisteistä
                 } else if (layer == carrotLayer) {
-                    HP += 1;
+                    HP += 5;
                 }
 
                 System.out.println(HP);
 
                 layer.getObjects().remove(rectangleObject);
                 clearIt(objectRectangle.getX(),objectRectangle.getY());
-                eatsound.play();
+                eatsound.play(0.5f);
             }
         }
     }
@@ -225,9 +223,10 @@ public class GameScreen implements Screen {
      * Checks if player has reached end of map or hp and calls gameIsOver.
      */
     public void isGameOver() {
-        if (player.getPlayerY() > 6200f || HP <= 0) gameIsOn = false;
+       // if (player.getPlayerY() > 6900f || HP <= 0) gameIsOver();
+        if (player.getPlayerY() > 6900f || HP <= 0) gameIsOn = false;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) gameIsOn = false;
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) gameIsOn = false; // continue button
     }
 
     /**

@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Player  {
     Texture playerTexture;
-    Texture controlTexture;
     Sprite playerRectangle;
     float playerX;
     float playerY;
@@ -15,15 +14,16 @@ public class Player  {
 
     Player() {
         playerTexture = new Texture("SlimPlayerCR.png");
-        controlTexture = new Texture("badlogic.jpg");
         playerX = 180f;
         playerY = 50f;
 
 
         playerRectangle = new Sprite(playerTexture,0,0,
                 playerTexture.getWidth() / 2, playerTexture.getHeight() / 2);
+        setPlayerX(playerX);
+        setPlayerY(playerY);
 
-        playerControlRectangle = new Rectangle(getPlayerX() -1,getPlayerY() -  15,200,200);
+        playerControlRectangle = new Rectangle(getPlayerX(),getPlayerY(),200,200);
     }
 
     public Texture getPlayerTexture() {
