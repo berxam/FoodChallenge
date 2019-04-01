@@ -8,25 +8,33 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-public class MenuScreen implements Screen {
+public class SelectLevel implements Screen {
     FoodChallenge game;
 
     Texture background;
 
-    Rectangle play;
-    Rectangle stats;
-    Rectangle settings;
+    Rectangle level1;
+    Rectangle level2;
+    Rectangle level3;
+    Rectangle level4;
+
+    float topRow = 600f;
+    float col1 = 20f;
+    float col2 = 115f;
+    float col3 = 210f;
+    float col4 = 305f;
 
     OrthographicCamera camera;
 
-    MenuScreen (FoodChallenge game) {
+    SelectLevel(FoodChallenge game) {
         this.game = game;
 
-        background = new Texture("MainMenuScreen.png");
+        background = new Texture("testi.png");
 
-        play = new Rectangle(48f, 480f, 304f, 64f);
-        stats = new Rectangle(48f, 368f, 304f, 64f);
-        settings = new Rectangle(48f, 259f, 304f, 64f);
+        level1 = new Rectangle(col1, topRow, 75f, 75f);
+        level2 = new Rectangle(col2, topRow, 75f, 75f);
+        level3 = new Rectangle(col3, topRow, 75f, 75f);
+        level4 = new Rectangle(col4, topRow, 75f, 75f);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 400, 800);
@@ -34,7 +42,6 @@ public class MenuScreen implements Screen {
 
     @Override
     public void show() {
-        Gdx.input.setCatchBackKey(true);
 
     }
 
@@ -58,15 +65,13 @@ public class MenuScreen implements Screen {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
 
-            if (play.contains(touchPos.x, touchPos.y)) {
-                // game.setScreen(new GameScreen(game));
-                game.setScreen(new SelectLevel(game));
+            if (level1.contains(touchPos.x, touchPos.y)) {
+                game.setScreen(new GameScreen(game, "map2.tmx"));
                 dispose();
-            } else if (stats.contains(touchPos.x, touchPos.y)) {
-                game.setScreen(new StatsScreen(game));
-                dispose();
-            } else if (settings.contains(touchPos.x, touchPos.y)) {
-                game.setScreen(new SettingsScreen(game));
+            }
+
+            if (level2.contains(touchPos.x, touchPos.y)) {
+                game.setScreen(new GameScreen(game, "kartta1.tmx"));
                 dispose();
             }
         }
@@ -97,3 +102,4 @@ public class MenuScreen implements Screen {
 
     }
 }
+

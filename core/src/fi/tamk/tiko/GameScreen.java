@@ -37,6 +37,7 @@ public class GameScreen implements Screen {
     private TiledMapRenderer tiledMapRenderer;
     private MapLayer burgerLayer;
     private MapLayer carrotLayer;
+    // different foods here
 
     private float scrollSpeed = 8f; // How fast does the screen scroll?
     private float scorePosY;
@@ -49,8 +50,9 @@ public class GameScreen implements Screen {
      * Creates camera, player and texture.
      *
      * @param game Don't even know what for but it must be there.
+     * @param map Selects the map.
      */
-    GameScreen(FoodChallenge game) {
+    GameScreen(FoodChallenge game, String map) {
         this.game = game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 400, 800);
@@ -61,7 +63,7 @@ public class GameScreen implements Screen {
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
 
-        tiledmap = new TmxMapLoader().load("map2.tmx");
+        tiledmap = new TmxMapLoader().load(map);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledmap);
         burgerLayer = tiledmap.getLayers().get("ObjectLayer");
         carrotLayer = tiledmap.getLayers().get("ObjectLayer2");
@@ -79,10 +81,7 @@ public class GameScreen implements Screen {
             moveCamera();
             updateBannerPos();
             drawEverything();
-
-            checkCollisions(burgerLayer);
-            checkCollisions(carrotLayer);
-
+            checkCollisions();
             movePlayer();
             isGameOver();
         } else {
@@ -141,11 +140,20 @@ public class GameScreen implements Screen {
     }
 
     /**
+     * Calls checkLayer() for all different foods.
+     */
+    public void checkCollisions() {
+        checkLayer(burgerLayer);
+        checkLayer(carrotLayer);
+        // different foods here
+    }
+
+    /**
      * Checks if objects are being hit by the player.
      *
      * If so, adds score according to object type and calls clearIt().
      */
-    public void checkCollisions(MapLayer objectLayer) {
+    public void checkLayer(MapLayer objectLayer) {
         MapLayer layer = objectLayer;
         MapObjects mapObjects = layer.getObjects();
         Array<RectangleMapObject> mapObjectsArray = mapObjects.getByType(RectangleMapObject.class);
@@ -203,11 +211,7 @@ public class GameScreen implements Screen {
             Vector3 touchPos = new Vector3(realX, realY, 0);
             camera.unproject(touchPos);
 
-
-
             if(player.playerControlRectangle.contains(touchPos.x,touchPos.y)) {
-
-
                 player.setPlayerX(touchPos.x - 30 ); // Positions the player
                 player.setPlayerY(touchPos.y + 20); // just above the finger.
             }
@@ -227,19 +231,25 @@ public class GameScreen implements Screen {
     }
 
     /**
-     * Saves current score and goes to MenuScreen.
+     * Creates retry & menu buttons and acts according to user input.
      */
     public void gameIsOver() {
-        boolean goToMenu = false;
-
         Texture retryTexture = new Texture("gameOver.png");
         Texture menuTexture = new Texture("menuBtn.png");
-        Rectangle retryButton = new Rectangle(25f, bannerPosY-275f, retryTexture.getWidth(), retryTexture.getHeight());
-        Rectangle menuButton = new Rectangle(25f, bannerPosY-475f, menuTexture.getWidth(), menuTexture.getHeight());
+        Rectangle retryButton = new Rectangle(25f, bannerPosY-275f,
+                retryTexture.getWidth(), retryTexture.getHeight());
+        Rectangle menuButton = new Rectangle(25f, bannerPosY-475f,
+                menuTexture.getWidth(), menuTexture.getHeight());
 
         game.batch.begin();
-        game.batch.draw(retryTexture, retryButton.getX(), retryButton.getY(), retryTexture.getWidth(), retryTexture.getHeight());
-        game.batch.draw(menuTexture, menuButton.getX(), menuButton.getY(), menuTexture.getWidth(), menuTexture.getHeight());
+        game.batch.draw(retryTexture,
+                retryButton.getX(), retryButton.getY(),
+                retryTexture.getWidth(),
+                retryTexture.getHeight());
+        game.batch.draw(menuTexture,
+                menuButton.getX(), menuButton.getY(),
+                menuTexture.getWidth(),
+                menuTexture.getHeight());
         game.batch.end();
 
         if(Gdx.input.justTouched()) {
@@ -248,20 +258,16 @@ public class GameScreen implements Screen {
 
             if (retryButton.contains(touchPos.x, touchPos.y)) {
                 backgroundMusic.stop();
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new SelectLevel(game));
             }
 
             if (menuButton.contains(touchPos.x, touchPos.y)) {
-                goToMenu = true;
+                game.prefs.putInteger("highscore", HP);
+                game.prefs.flush();
+                game.setScreen(new MenuScreen(game));
+                backgroundMusic.stop();
+                dispose();
             }
-        }
-
-        if (goToMenu) {
-            game.prefs.putInteger("highscore", HP);
-            game.prefs.flush();
-            game.setScreen(new MenuScreen(game));
-            backgroundMusic.stop();
-            dispose();
         }
     }
 
