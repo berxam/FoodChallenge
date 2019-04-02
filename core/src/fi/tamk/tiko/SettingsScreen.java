@@ -97,6 +97,8 @@ public class SettingsScreen implements Screen {
                     musicOnOff = "ON";
                     game.prefs.putBoolean("musicOn", true);
                 }
+
+                game.prefs.flush();
             }
 
             if (effexButton.contains(touchPos.x, touchPos.y)) {
@@ -107,6 +109,8 @@ public class SettingsScreen implements Screen {
                     sfxOnOff = "ON";
                     game.prefs.putBoolean("effexOn", true);
                 }
+
+                game.prefs.flush();
             }
         }
     }
