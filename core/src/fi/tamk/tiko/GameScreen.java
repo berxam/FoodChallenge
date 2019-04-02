@@ -42,6 +42,7 @@ public class GameScreen implements Screen {
     private float scrollSpeed = 4f; // How fast does the screen scroll?
     private float scorePosY;
     private float bannerPosY;
+    private float fxOnOff;
     private int HP = 100;
 
     private boolean gameIsOn = true;
@@ -57,11 +58,8 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 400, 800);
         player = new Player();
-        eatsound = Gdx.audio.newSound(Gdx.files.internal("eatsound.mp3"));
-        //eatsound.setVolume(0,0.5f);
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("summerhit.mp3"));
-        backgroundMusic.setLooping(true);
-        backgroundMusic.play();
+
+        loadMusic();
 
         tiledmap = new TmxMapLoader().load(map);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledmap);
@@ -88,6 +86,22 @@ public class GameScreen implements Screen {
             System.out.println(player.getPlayerY());
             gameIsOver();
         }
+    }
+
+    public void loadMusic() {
+        fxOnOff = 0.5f;
+        float mOnOff = 0.5f;
+
+        if (!game.prefs.getBoolean("effexOn")) fxOnOff = 0f;
+        if (!game.prefs.getBoolean("musicOn")) mOnOff = 0f;
+
+        eatsound = Gdx.audio.newSound(Gdx.files.internal("eatsound.mp3"));
+        eatsound.setVolume(0,fxOnOff);
+
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("summerhit.mp3"));
+        backgroundMusic.setVolume(mOnOff);
+        backgroundMusic.setLooping(true);
+        backgroundMusic.play();
     }
 
     /**
@@ -171,7 +185,7 @@ public class GameScreen implements Screen {
 
                 layer.getObjects().remove(rectangleObject);
                 clearIt(objectRectangle.getX(),objectRectangle.getY());
-                eatsound.play(0.5f);
+                eatsound.play(fxOnOff);
             }
         }
     }

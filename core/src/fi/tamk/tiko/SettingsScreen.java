@@ -14,18 +14,27 @@ public class SettingsScreen implements Screen {
     private Texture background;
 
     private Rectangle backButton;
+    private Rectangle musicButton;
+    private Rectangle effexButton;
 
     private OrthographicCamera camera;
+
+    private String musicOnOff;
+    private String sfxOnOff;
 
     SettingsScreen(FoodChallenge game) {
         this.game = game;
 
         background = new Texture("SettingsScreen.png");
 
-        backButton = new Rectangle(0, 0, 400f, 800f);
+        backButton = new Rectangle(0, 600, 400f, 180f);
+        musicButton = new Rectangle(0, 520, 400f, 40f);
+        effexButton = new Rectangle(0, 480, 400f, 40f);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 400, 800);
+
+        loadDefaults();
     }
 
     @Override
@@ -34,6 +43,20 @@ public class SettingsScreen implements Screen {
         updateCamera();
         drawEverything();
         checkPresses();
+    }
+
+    private void loadDefaults() {
+        if (game.prefs.getBoolean("musicOn", true)) {
+            musicOnOff = "ON";
+        } else {
+            musicOnOff = "OFF";
+        }
+
+        if (game.prefs.getBoolean("effexOn", true)) {
+            sfxOnOff = "ON";
+        } else {
+            sfxOnOff = "OFF";
+        }
     }
 
     private void clearScreen() {
@@ -49,6 +72,10 @@ public class SettingsScreen implements Screen {
     private void drawEverything() {
         game.batch.begin();
         game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
+        game.bitmapFont.draw(game.batch, "Sound settings:", 50f, 600f);
+        game.bitmapFont.draw(game.batch, "music " + musicOnOff, 50f, 560f);
+        game.bitmapFont.draw(game.batch, "effex " + sfxOnOff, 50f, 520f);
+        game.bitmapFont.draw(game.batch, "Language: Yes", 50f, 450f);
         game.batch.end();
     }
 
@@ -60,6 +87,26 @@ public class SettingsScreen implements Screen {
             if (backButton.contains(touchPos.x, touchPos.y)) {
                 game.setScreen(new MenuScreen(game));
                 dispose();
+            }
+
+            if (musicButton.contains(touchPos.x, touchPos.y)) {
+                if (game.prefs.getBoolean("musicOn")) {
+                    musicOnOff = "OFF";
+                    game.prefs.putBoolean("musicOn", false);
+                } else {
+                    musicOnOff = "ON";
+                    game.prefs.putBoolean("musicOn", true);
+                }
+            }
+
+            if (effexButton.contains(touchPos.x, touchPos.y)) {
+                if (game.prefs.getBoolean("effexOn")) {
+                    sfxOnOff = "OFF";
+                    game.prefs.putBoolean("effexOn", false);
+                } else {
+                    sfxOnOff = "ON";
+                    game.prefs.putBoolean("effexOn", true);
+                }
             }
         }
     }

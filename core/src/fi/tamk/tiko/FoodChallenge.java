@@ -3,6 +3,7 @@ package fi.tamk.tiko;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -22,6 +23,8 @@ public class FoodChallenge extends Game {
         freeTypeFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("ostrich-regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 36;
+        parameter.borderColor = Color.FOREST;
+        parameter.borderWidth = 2;
         bitmapFont = freeTypeFontGenerator.generateFont(parameter);
 
 		setScreen(new MenuScreen(this));
