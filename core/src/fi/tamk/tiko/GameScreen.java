@@ -256,18 +256,56 @@ public class GameScreen implements Screen {
             camera.unproject(touchPos);
 
             if (retryButton.contains(touchPos.x, touchPos.y)) {
+                saveScore();
                 backgroundMusic.stop();
                 game.setScreen(new SelectLevel(game));
             }
 
             if (menuButton.contains(touchPos.x, touchPos.y)) {
-                game.prefs.putInteger("highscore", HP);
-                game.prefs.flush();
-                game.setScreen(new MenuScreen(game));
+                saveScore();
                 backgroundMusic.stop();
+                game.setScreen(new MenuScreen(game));
                 dispose();
             }
         }
+    }
+
+    /**
+     * Saves current score and updates the score list.
+     *
+     * If current score is top1-4, items below it will be moved down.
+     */
+    private void saveScore() {
+        int old1 = game.prefs.getInteger("highscore");
+        int old2 = game.prefs.getInteger("score2");
+        int old3 = game.prefs.getInteger("score3");
+        int old4 = game.prefs.getInteger("score4");
+
+        if (HP > old1) {
+            game.prefs.putInteger("highscore", HP);
+            game.prefs.putInteger("score2", old1);
+            game.prefs.putInteger("score3", old2);
+            game.prefs.putInteger("score4", old3);
+            game.prefs.putInteger("score5", old4);
+        } else if (HP > old2) {
+            game.prefs.putInteger("score2", HP);
+            game.prefs.putInteger("score3", old2);
+            game.prefs.putInteger("score4", old3);
+            game.prefs.putInteger("score5", old4);
+        } else if (HP > old3) {
+            game.prefs.putInteger("score3", HP);
+            game.prefs.putInteger("score4", old3);
+            game.prefs.putInteger("score5", old4);
+        } else if (HP > old4) {
+            game.prefs.putInteger("score4", HP);
+            game.prefs.putInteger("score5", old4);
+        } else if (HP > game.prefs.getInteger("score5")) {
+            game.prefs.putInteger("score5", HP);
+        } else {
+            game.prefs.putInteger("sixth", HP);
+        }
+
+        game.prefs.flush();
     }
 
     @Override

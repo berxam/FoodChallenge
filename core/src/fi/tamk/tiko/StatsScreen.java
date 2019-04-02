@@ -15,6 +15,10 @@ public class StatsScreen implements Screen {
     private Rectangle backButton;
 
     private int highScore;
+    private int second;
+    private int third;
+    private int fourth;
+    private int fifth;
 
     private OrthographicCamera camera;
 
@@ -25,6 +29,10 @@ public class StatsScreen implements Screen {
         backButton = new Rectangle(0, 0, 400f, 800f);
 
         highScore = game.prefs.getInteger("highscore", 0);
+        second = game.prefs.getInteger("score2", 0);
+        third = game.prefs.getInteger("score3", 0);
+        fourth = game.prefs.getInteger("score4", 0);
+        fifth = game.prefs.getInteger("score5", 0);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 400, 800);
@@ -51,7 +59,12 @@ public class StatsScreen implements Screen {
     private void drawEverything() {
         game.batch.begin();
         game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
-        game.bitmapFont.draw(game.batch, "Highscore: " + highScore, 50f, 600f);
+        game.bitmapFont.draw(game.batch, "TOP5 SCORES", 50f, 600f);
+        game.bitmapFont.draw(game.batch, "1: " + highScore, 50f, 560f);
+        game.bitmapFont.draw(game.batch, "2: " + second, 50f, 520f);
+        game.bitmapFont.draw(game.batch, "3: " + third, 50f, 480f);
+        game.bitmapFont.draw(game.batch, "4: " + fourth, 50f, 440f);
+        game.bitmapFont.draw(game.batch, "5: " + fifth, 50f, 400f);
         game.batch.end();
     }
 
