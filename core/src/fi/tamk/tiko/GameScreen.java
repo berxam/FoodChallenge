@@ -39,6 +39,7 @@ public class GameScreen implements Screen {
     private MapLayer carrotLayer;
     // different foods here
 
+    private float mapHeight;
     private float scrollSpeed = 4f; // How fast does the screen scroll?
     private float scorePosY;
     private float bannerPosY;
@@ -53,7 +54,7 @@ public class GameScreen implements Screen {
      * @param game Don't even know what for but it must be there.
      * @param map Selects the map.
      */
-    GameScreen(FoodChallenge game, String map) {
+    GameScreen(FoodChallenge game, String map, float height) {
         this.game = game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 400, 800);
@@ -65,8 +66,10 @@ public class GameScreen implements Screen {
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledmap);
         burgerLayer = tiledmap.getLayers().get("ObjectLayer");
         carrotLayer = tiledmap.getLayers().get("ObjectLayer2");
+        mapHeight = height;
 
         banner = new Texture("boringbanner.png");
+
         scorePosY = 785f;
         bannerPosY = 750f;
     }
@@ -238,7 +241,7 @@ public class GameScreen implements Screen {
      */
     public void isGameOver() {
        // if (player.getPlayerY() > 6900f || HP <= 0) gameIsOver();
-        if (player.getPlayerY() > 6900f || HP <= 0) gameIsOn = false;
+        if (player.getPlayerY() > mapHeight || HP <= 0) gameIsOn = false;
 
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) gameIsOn = false; // continue button
     }
