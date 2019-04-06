@@ -338,11 +338,13 @@ public class GameScreen implements Screen {
                 dispose();
             }
 
-            if (recipeButton.contains(touchPos.x, touchPos.y)) {
-                saveScore();
-                backgroundMusic.stop();
-                game.setScreen(new RecipeScreen(game));
-                dispose();
+            if (completed) {
+                if (recipeButton.contains(touchPos.x, touchPos.y)) {
+                    saveScore();
+                    backgroundMusic.stop();
+                    game.setScreen(new RecipeScreen(game));
+                    dispose();
+                }
             }
         }
     }
