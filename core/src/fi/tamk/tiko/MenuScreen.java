@@ -14,6 +14,7 @@ public class MenuScreen implements Screen {
     private Texture background;
 
     private Rectangle play;
+    private Rectangle recipes;
     private Rectangle stats;
     private Rectangle settings;
 
@@ -24,9 +25,10 @@ public class MenuScreen implements Screen {
 
         background = new Texture("MainMenu.png");
 
-        play = new Rectangle(48f, 480f, 304f, 64f);
-        stats = new Rectangle(48f, 368f, 304f, 64f);
-        settings = new Rectangle(48f, 259f, 304f, 64f);
+        play = new Rectangle(45f, 476f, 303f, 62f);
+        recipes = new Rectangle(45f, 378f, 303f, 62f);
+        stats = new Rectangle(45f, 280f, 303f, 62f);
+        settings = new Rectangle(45f, 180f, 303f, 62f);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 400, 800);
@@ -52,6 +54,10 @@ public class MenuScreen implements Screen {
     private void drawEverything() {
         game.batch.begin();
         game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
+        game.bitmapFont.draw(game.batch, "PLAY GAME", 85f, 530f);
+        game.bitmapFont.draw(game.batch, "RECIPES", 115f, 425f);
+        game.bitmapFont.draw(game.batch, "STATISTICS", 80f, 323f);
+        game.bitmapFont.draw(game.batch, "SETTINGS", 100f, 224f);
         game.batch.end();
     }
     private void checkPresses() {
@@ -60,8 +66,10 @@ public class MenuScreen implements Screen {
             camera.unproject(touchPos);
 
             if (play.contains(touchPos.x, touchPos.y)) {
-                // game.setScreen(new GameScreen(game));
                 game.setScreen(new SelectLevel(game));
+                dispose();
+            } else if (recipes.contains(touchPos.x, touchPos.y)) {
+                game.setScreen(new RecipeScreen(game));
                 dispose();
             } else if (stats.contains(touchPos.x, touchPos.y)) {
                 game.setScreen(new StatsScreen(game));
