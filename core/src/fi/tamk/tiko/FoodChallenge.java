@@ -20,10 +20,11 @@ public class FoodChallenge extends Game {
 		batch = new SpriteBatch();
 		prefs = Gdx.app.getPreferences("myPrefs");
 
-        freeTypeFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("ostrich-regular.ttf"));
+        freeTypeFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("HVD_Comic_Serif_Pro.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 36;
-        parameter.borderColor = Color.FOREST;
+        parameter.borderColor = Color.BLACK;
+        parameter.color = Color.GREEN;
         parameter.borderWidth = 2;
         bitmapFont = freeTypeFontGenerator.generateFont(parameter);
 

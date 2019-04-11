@@ -22,7 +22,7 @@ public class MenuScreen implements Screen {
     MenuScreen (FoodChallenge game) {
         this.game = game;
 
-        background = new Texture("MainMenuScreen.png");
+        background = new Texture("MainMenu.png");
 
         play = new Rectangle(48f, 480f, 304f, 64f);
         stats = new Rectangle(48f, 368f, 304f, 64f);

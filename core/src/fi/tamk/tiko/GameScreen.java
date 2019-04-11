@@ -123,7 +123,7 @@ public class GameScreen implements Screen {
      * Clears the screen and sets projection matrix.
      */
     public void clearScreen() {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(1f,140/255f,0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.setProjectionMatrix(camera.combined);
     }
