@@ -32,7 +32,14 @@ public class GameScreen implements Screen {
     private Music backgroundMusic;
     private Sound eatsound;
     private Texture banner;
+    private Texture retryTexture;
+    private Texture menuTexture;
+    private Texture recipeTexture;
+    private Rectangle retryButton;
+    private Rectangle menuButton;
+    private Rectangle recipeButton;
 
+    private String level;
     private TiledMap tiledmap;
     private TiledMapRenderer tiledMapRenderer;
     private MapLayer burgerLayer;
@@ -47,6 +54,8 @@ public class GameScreen implements Screen {
     private int HP = 100;
 
     private boolean gameIsOn = true;
+    private boolean completed = false;
+    private boolean btnsCreated = false;
 
     /**
      * Creates camera, player and texture.
@@ -62,6 +71,7 @@ public class GameScreen implements Screen {
 
         loadMusic();
 
+        level = map; // used in saveScore()
         tiledmap = new TmxMapLoader().load(map);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledmap);
         burgerLayer = tiledmap.getLayers().get("ObjectLayer");
@@ -86,7 +96,6 @@ public class GameScreen implements Screen {
             checkCollisions();
             movePlayer();
             isGameOver();
-
         } else {
             System.out.println(player.getPlayerY());
             clearScreen();
@@ -211,7 +220,6 @@ public class GameScreen implements Screen {
         TiledMapTileLayer carrots = (TiledMapTileLayer) tiledmap.getLayers().get("carrots");
         burgers.setCell(indexX,indexY,null);
         carrots.setCell(indexX,indexY,null);
-        //burgerObject.setCell(indexX,indexY,null );
     }
 
     /**
@@ -233,9 +241,8 @@ public class GameScreen implements Screen {
                 player.setPlayerX(touchPos.x - 30 ); // Positions the player
                 player.setPlayerY(touchPos.y + 20); // just above the finger.
             }
-        } else {
-          //  player.setPlayerY(player.getPlayerY()+scrollSpeed); // Makes player move with camera.
         }
+
         player.setPlayerY(player.getPlayerY()+scrollSpeed); // Makes player move with camera.
     }
 
@@ -250,16 +257,40 @@ public class GameScreen implements Screen {
     }
 
     /**
-     * Creates retry & menu buttons and acts according to user input.
+     * Sets level completed if possible, creates and draws post-game buttons.
      */
     public void gameIsOver() {
-        Texture retryTexture = new Texture("gameOver.png");
-        Texture menuTexture = new Texture("menuBtn.png");
-        Rectangle retryButton = new Rectangle(25f, bannerPosY-275f,
+        if (HP >= 100) completed = true;
+        if (!btnsCreated) createBtns();
+        drawButtons();
+        checkPresses();
+    }
+
+    /**
+     * Creates retry & menu buttons.
+     */
+    private void createBtns() {
+        retryTexture = new Texture("gameOver.png");
+        menuTexture = new Texture("menuBtn.png");
+        retryButton = new Rectangle(25f, bannerPosY-275f,
                 retryTexture.getWidth(), retryTexture.getHeight());
-        Rectangle menuButton = new Rectangle(25f, bannerPosY-475f,
+        menuButton = new Rectangle(25f, bannerPosY-475f,
                 menuTexture.getWidth(), menuTexture.getHeight());
 
+        if (completed) {
+        //    create Next Level button
+            recipeTexture = new Texture("showRecipe.png");
+            recipeButton = new Rectangle(25f, bannerPosY-675f,
+                    recipeTexture.getWidth(), recipeTexture.getHeight());
+        }
+
+        btnsCreated = true;
+    }
+
+    /**
+     * Draws buttons when game is over.
+     */
+    private void drawButtons() {
         game.batch.begin();
         game.batch.draw(retryTexture,
                 retryButton.getX(), retryButton.getY(),
@@ -269,8 +300,39 @@ public class GameScreen implements Screen {
                 menuButton.getX(), menuButton.getY(),
                 menuTexture.getWidth(),
                 menuTexture.getHeight());
-        game.batch.end();
+        game.bitmapFont.draw(game.batch, getFeedback(), 25f, bannerPosY - 100f);
 
+        if (completed) {
+        //     draw Next Level button
+             game.batch.draw(recipeTexture,
+                     recipeButton.getX(), recipeButton.getY(),
+                     recipeTexture.getWidth(), recipeTexture.getHeight());
+        }
+
+        game.batch.end();
+    }
+
+    /**
+     * Changes the post-game greeting according to HP.
+     *
+     * @return feedback Greeting shown when game is over.
+     */
+    private String getFeedback() {
+        String feedback;
+
+        if (completed) {
+            feedback = "Resepti avattu!";
+        } else {
+            feedback = "Haha et osaa, luuseri!";
+        }
+
+        return feedback;
+    }
+
+    /**
+     * Checks if post-game buttons are pressed and changes screen accordingly.
+     */
+    private void checkPresses() {
         if(Gdx.input.justTouched()) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
@@ -287,11 +349,20 @@ public class GameScreen implements Screen {
                 game.setScreen(new MenuScreen(game));
                 dispose();
             }
+
+            if (completed) {
+                if (recipeButton.contains(touchPos.x, touchPos.y)) {
+                    saveScore();
+                    backgroundMusic.stop();
+                    game.setScreen(new RecipeScreen(game));
+                    dispose();
+                }
+            }
         }
     }
 
     /**
-     * Saves current score and updates the score list.
+     * Saves current score and unlocks recipe for this level.
      *
      * If current score is top1-4, items below it will be moved down.
      */
@@ -323,6 +394,10 @@ public class GameScreen implements Screen {
             game.prefs.putInteger("score5", HP);
         } else {
             game.prefs.putInteger("sixth", HP);
+        }
+
+        if (completed) {
+            game.prefs.putBoolean(level, true); // unlocks recipe
         }
 
         game.prefs.flush();
