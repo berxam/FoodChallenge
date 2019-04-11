@@ -34,16 +34,25 @@ public class RecipeScreen implements Screen {
         checkPresses();
     }
 
+    /**
+     * Clears the screen.
+     */
     private void clearScreen() {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
+    /**
+     * Updates camera and sets batch projection matrix.
+     */
     private void updateCamera() {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
     }
 
+    /**
+     * Draws placeholder "buttons" aka strings if they're unlocked.
+     */
     private void drawEverything() {
         game.batch.begin();
         game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
@@ -60,6 +69,12 @@ public class RecipeScreen implements Screen {
         game.batch.end();
     }
 
+    /**
+     * Checks if screen is pressed and goes to menu if so.
+     *
+     * Recipe buttons will be added here and clicking them
+     * will take the player to view the recipe.
+     */
     private void checkPresses() {
         if(Gdx.input.justTouched()) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);

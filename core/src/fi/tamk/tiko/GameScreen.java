@@ -188,7 +188,7 @@ public class GameScreen implements Screen {
             if (player.playerRectangle.getBoundingRectangle().overlaps(objectRectangle)) {
                 if (layer == burgerLayer) {
                     HP -= 1;
-                    // animaatio pisteistä
+                    // ptsAnimation(burger);
                 } else if (layer == carrotLayer) {
                     HP += 5;
                 }
@@ -217,7 +217,6 @@ public class GameScreen implements Screen {
         TiledMapTileLayer carrots = (TiledMapTileLayer) tiledmap.getLayers().get("carrots");
         burgers.setCell(indexX,indexY,null);
         carrots.setCell(indexX,indexY,null);
-        //burgerObject.setCell(indexX,indexY,null );
     }
 
     /**
@@ -239,9 +238,8 @@ public class GameScreen implements Screen {
                 player.setPlayerX(touchPos.x - 30 ); // Positions the player
                 player.setPlayerY(touchPos.y + 20); // just above the finger.
             }
-        } else {
-          //  player.setPlayerY(player.getPlayerY()+scrollSpeed); // Makes player move with camera.
         }
+
         player.setPlayerY(player.getPlayerY()+scrollSpeed); // Makes player move with camera.
     }
 
@@ -256,7 +254,7 @@ public class GameScreen implements Screen {
     }
 
     /**
-     * Creates buttons, draws them and checks if they're pressed.
+     * Sets level completed if possible, creates and draws post-game buttons.
      */
     public void gameIsOver() {
         if (HP >= 100) completed = true;
@@ -286,6 +284,9 @@ public class GameScreen implements Screen {
         btnsCreated = true;
     }
 
+    /**
+     * Draws buttons when game is over.
+     */
     private void drawButtons() {
         game.batch.begin();
         game.batch.draw(retryTexture,
@@ -308,6 +309,11 @@ public class GameScreen implements Screen {
         game.batch.end();
     }
 
+    /**
+     * Changes the post-game greeting according to HP.
+     *
+     * @return feedback Greeting shown when game is over.
+     */
     private String getFeedback() {
         String feedback;
 
@@ -320,6 +326,9 @@ public class GameScreen implements Screen {
         return feedback;
     }
 
+    /**
+     * Checks if post-game buttons are pressed and changes screen accordingly.
+     */
     private void checkPresses() {
         if(Gdx.input.justTouched()) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -350,7 +359,7 @@ public class GameScreen implements Screen {
     }
 
     /**
-     * Saves current score and updates the score list.
+     * Saves current score and unlocks recipe for this level.
      *
      * If current score is top1-4, items below it will be moved down.
      */
