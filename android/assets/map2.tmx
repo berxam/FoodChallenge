@@ -19,8 +19,8 @@
   </data>
  </layer>
  <objectgroup id="6" name="ObjectLayer">
-  <object id="26" x="49" y="5905" width="43" height="44"/>
-  <object id="27" x="146" y="5809" width="43" height="44"/>
+  <object id="26" x="53.25" y="5909.25" width="38.25" height="36.75"/>
+  <object id="27" x="150.153" y="5809" width="38.8466" height="39.75"/>
   <object id="28" x="242" y="5763" width="43" height="44"/>
   <object id="29" x="338" y="5618" width="43" height="44"/>
   <object id="30" x="384" y="5523" width="43" height="44"/>
@@ -85,12 +85,12 @@
   <object id="94" x="99.5" y="96" width="43" height="44"/>
  </objectgroup>
  <objectgroup id="7" name="ObjectLayer2">
-  <object id="36" x="338" y="5857" width="43" height="43"/>
-  <object id="37" x="193" y="5618.25" width="43" height="43"/>
+  <object id="36" x="343.333" y="5857" width="37.6667" height="37.6667"/>
+  <object id="37" x="197.667" y="5618.25" width="38.3333" height="38.3333"/>
   <object id="38" x="339" y="5379" width="43" height="43"/>
   <object id="39" x="289" y="4993" width="43" height="43"/>
   <object id="40" x="192" y="4898" width="43" height="43"/>
-  <object id="97" x="96.25" y="5617.75" width="43" height="43"/>
+  <object id="97" x="100.25" y="5617.75" width="39" height="39"/>
   <object id="102" x="194" y="4512.67" width="43" height="43"/>
   <object id="103" x="385.833" y="4322.5" width="43" height="43"/>
   <object id="104" x="145.167" y="3937.17" width="43" height="43"/>

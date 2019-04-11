@@ -57,7 +57,7 @@ public class GameScreen implements Screen {
     GameScreen(FoodChallenge game, String map, float height) {
         this.game = game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 400, 800);
+        camera.setToOrtho(false, 480, 960);
         player = new Player();
 
         loadMusic();
@@ -70,8 +70,8 @@ public class GameScreen implements Screen {
 
         banner = new Texture("boringbanner.png");
 
-        scorePosY = 785f;
-        bannerPosY = 750f;
+        scorePosY = 945f;
+        bannerPosY = 910f;
     }
 
     @Override
@@ -81,13 +81,16 @@ public class GameScreen implements Screen {
             renderTiledMap();
             moveCamera();
             updateBannerPos();
+            player.walk();
             drawEverything();
             checkCollisions();
             movePlayer();
             isGameOver();
+
         } else {
             System.out.println(player.getPlayerY());
-            gameIsOver();
+            clearScreen();
+           gameIsOver();
         }
     }
 
@@ -145,7 +148,7 @@ public class GameScreen implements Screen {
      */
     public void drawEverything() {
         game.batch.begin();
-        game.batch.draw(player.playerTexture,
+        game.batch.draw(player.currentFrameTexture,
                 player.getPlayerX(),player.getPlayerY(),
                 player.getPlayerRectangle().getWidth(),
                 player.getPlayerRectangle().getHeight());
@@ -178,7 +181,7 @@ public class GameScreen implements Screen {
 
             if (player.playerRectangle.getBoundingRectangle().overlaps(objectRectangle)) {
                 if (layer == burgerLayer) {
-                    HP -= 1;
+                    HP -= 10;
                     // animaatio pisteistä
                 } else if (layer == carrotLayer) {
                     HP += 5;

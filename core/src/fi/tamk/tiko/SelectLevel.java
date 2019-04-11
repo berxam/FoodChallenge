@@ -83,6 +83,14 @@ public class SelectLevel implements Screen {
                 game.setScreen(new GameScreen(game, "map3.tmx", 6900f));
                 dispose();
             }
+            if (level3.contains(touchPos.x, touchPos.y)) {
+                game.setScreen(new GameScreen(game, "map1_135.tmx", 6900f));
+                dispose();
+            }
+            if (level4.contains(touchPos.x, touchPos.y)) {
+                game.setScreen(new GameScreen(game, "map2_150.tmx", 6900f));
+                dispose();
+            }
         }
     }
 
