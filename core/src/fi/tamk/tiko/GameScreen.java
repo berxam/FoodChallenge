@@ -190,7 +190,7 @@ public class GameScreen implements Screen {
 
             if (player.playerRectangle.getBoundingRectangle().overlaps(objectRectangle)) {
                 if (layer == burgerLayer) {
-                    HP -= 10;
+                    HP -= 30;
                     // animaatio pisteistä
                 } else if (layer == carrotLayer) {
                     HP += 5;
@@ -253,7 +253,10 @@ public class GameScreen implements Screen {
        // if (player.getPlayerY() > 6900f || HP <= 0) gameIsOver();
         if (player.getPlayerY() > mapHeight || HP <= 0) gameIsOn = false;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) gameIsOn = false; // continue button
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            game.setScreen(new SelectLevel(game));
+            backgroundMusic.stop();
+        }
     }
 
     /**
@@ -272,15 +275,15 @@ public class GameScreen implements Screen {
     private void createBtns() {
         retryTexture = new Texture("gameOver.png");
         menuTexture = new Texture("menuBtn.png");
-        retryButton = new Rectangle(25f, bannerPosY-275f,
+        retryButton = new Rectangle(65f, bannerPosY-275f,
                 retryTexture.getWidth(), retryTexture.getHeight());
-        menuButton = new Rectangle(25f, bannerPosY-475f,
+        menuButton = new Rectangle(65f, bannerPosY-475f,
                 menuTexture.getWidth(), menuTexture.getHeight());
 
         if (completed) {
         //    create Next Level button
             recipeTexture = new Texture("showRecipe.png");
-            recipeButton = new Rectangle(25f, bannerPosY-675f,
+            recipeButton = new Rectangle(65f, bannerPosY-675f,
                     recipeTexture.getWidth(), recipeTexture.getHeight());
         }
 
@@ -300,7 +303,7 @@ public class GameScreen implements Screen {
                 menuButton.getX(), menuButton.getY(),
                 menuTexture.getWidth(),
                 menuTexture.getHeight());
-        game.bitmapFont.draw(game.batch, getFeedback(), 25f, bannerPosY - 100f);
+        game.bitmapFont.draw(game.batch, getFeedback(), 65f, bannerPosY - 100f);
 
         if (completed) {
         //     draw Next Level button
@@ -323,7 +326,7 @@ public class GameScreen implements Screen {
         if (completed) {
             feedback = "Resepti avattu!";
         } else {
-            feedback = "Haha et osaa, luuseri!";
+            feedback = "Haha et osaa";
         }
 
         return feedback;

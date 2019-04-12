@@ -1,6 +1,7 @@
 package fi.tamk.tiko;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -25,7 +26,7 @@ public class StatsScreen implements Screen {
     StatsScreen(FoodChallenge game) {
         this.game = game;
 
-        background = new Texture("StatisticsScreen.png");
+        background = new Texture("Statistics.png");
         backButton = new Rectangle(0, 0, 400f, 800f);
 
         highScore = game.prefs.getInteger("highscore", 0);
@@ -44,6 +45,10 @@ public class StatsScreen implements Screen {
         updateCamera();
         drawEverything();
         checkPresses();
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            game.setScreen(new MenuScreen(game));
+            dispose();
+        }
     }
 
     private void clearScreen() {
@@ -82,6 +87,7 @@ public class StatsScreen implements Screen {
 
     @Override
     public void show() {
+        Gdx.input.setCatchBackKey(true);
 
     }
 

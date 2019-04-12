@@ -1,6 +1,7 @@
 package fi.tamk.tiko;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -17,8 +18,11 @@ public class SelectLevel implements Screen {
     private Rectangle level2;
     private Rectangle level3;
     private Rectangle level4;
+    private Rectangle level5;
+    private Rectangle level6;
 
     private float topRow = 600f;
+    private float secondRow = 510f;
     private float col1 = 20f;
     private float col2 = 115f;
     private float col3 = 210f;
@@ -29,12 +33,14 @@ public class SelectLevel implements Screen {
     SelectLevel(FoodChallenge game) {
         this.game = game;
 
-        background = new Texture("testi.png");
+        background = new Texture("LevelSelect.png");
 
         level1 = new Rectangle(col1, topRow, 75f, 75f);
         level2 = new Rectangle(col2, topRow, 75f, 75f);
         level3 = new Rectangle(col3, topRow, 75f, 75f);
         level4 = new Rectangle(col4, topRow, 75f, 75f);
+        level5 = new Rectangle(col2, secondRow, 75f, 75f);
+        level6 = new Rectangle(col1, secondRow, 75f, 75f);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 400, 800);
@@ -42,6 +48,7 @@ public class SelectLevel implements Screen {
 
     @Override
     public void show() {
+        Gdx.input.setCatchBackKey(true);
 
     }
 
@@ -51,6 +58,10 @@ public class SelectLevel implements Screen {
         updateCamera();
         drawEverything();
         checkPresses();
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            game.setScreen(new MenuScreen(game));
+            dispose();
+        }
     }
 
     private void clearScreen() {
@@ -89,6 +100,14 @@ public class SelectLevel implements Screen {
             }
             if (level4.contains(touchPos.x, touchPos.y)) {
                 game.setScreen(new GameScreen(game, "map2_150.tmx", 6900f));
+                dispose();
+            }
+            if (level5.contains(touchPos.x, touchPos.y)) {
+                game.setScreen(new GameScreen(game, "map3_150.tmx", 6900f));
+                dispose();
+            }
+            if (level6.contains(touchPos.x, touchPos.y)) {
+                game.setScreen(new GameScreen(game, "map4_180.tmx", 6900f));
                 dispose();
             }
         }

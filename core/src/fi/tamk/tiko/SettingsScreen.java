@@ -1,6 +1,7 @@
 package fi.tamk.tiko;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -25,7 +26,7 @@ public class SettingsScreen implements Screen {
     SettingsScreen(FoodChallenge game) {
         this.game = game;
 
-        background = new Texture("SettingsScreen.png");
+        background = new Texture("Settings.png");
 
         backButton = new Rectangle(0, 600, 400f, 180f);
         musicButton = new Rectangle(0, 520, 400f, 40f);
@@ -43,6 +44,11 @@ public class SettingsScreen implements Screen {
         updateCamera();
         drawEverything();
         checkPresses();
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            game.setScreen(new MenuScreen(game));
+            dispose();
+        }
+
     }
 
     private void loadDefaults() {
@@ -84,10 +90,7 @@ public class SettingsScreen implements Screen {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
 
-            if (backButton.contains(touchPos.x, touchPos.y)) {
-                game.setScreen(new MenuScreen(game));
-                dispose();
-            }
+
 
             if (musicButton.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("musicOn")) {
@@ -117,6 +120,7 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void show() {
+        Gdx.input.setCatchBackKey(true);
 
     }
 
