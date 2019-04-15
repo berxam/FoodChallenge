@@ -54,10 +54,10 @@ public class MenuScreen implements Screen {
     private void drawEverything() {
         game.batch.begin();
         game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
-        game.bitmapFont.draw(game.batch, "PLAY GAME", 85f, 530f);
-        game.bitmapFont.draw(game.batch, "RECIPES", 115f, 425f);
-        game.bitmapFont.draw(game.batch, "STATISTICS", 80f, 323f);
-        game.bitmapFont.draw(game.batch, "SETTINGS", 100f, 224f);
+        game.bitmapFont.draw(game.batch, game.myBundle.get("play"), 80f, 530f);
+        game.bitmapFont.draw(game.batch, game.myBundle.get("recipes"), 80f, 425f);
+        game.bitmapFont.draw(game.batch, game.myBundle.get("stats"), 80f, 323f);
+        game.bitmapFont.draw(game.batch, game.myBundle.get("settings"), 80f, 224f);
         game.batch.end();
     }
     private void checkPresses() {

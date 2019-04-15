@@ -45,10 +45,6 @@ public class StatsScreen implements Screen {
         updateCamera();
         drawEverything();
         checkPresses();
-        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
-            game.setScreen(new MenuScreen(game));
-            dispose();
-        }
     }
 
     private void clearScreen() {
@@ -64,12 +60,15 @@ public class StatsScreen implements Screen {
     private void drawEverything() {
         game.batch.begin();
         game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
-        game.bitmapFont.draw(game.batch, "TOP5 SCORES", 50f, 600f);
+        game.bitmapFont.draw(game.batch, game.myBundle.get("stats"), 50f, 725f);
+        game.bitmapFont.draw(game.batch, "TOP5 " + game.myBundle.get("scores"), 50f, 600f);
         game.bitmapFont.draw(game.batch, "1: " + highScore, 50f, 560f);
         game.bitmapFont.draw(game.batch, "2: " + second, 50f, 520f);
         game.bitmapFont.draw(game.batch, "3: " + third, 50f, 480f);
         game.bitmapFont.draw(game.batch, "4: " + fourth, 50f, 440f);
         game.bitmapFont.draw(game.batch, "5: " + fifth, 50f, 400f);
+        game.bitmapFont.draw(game.batch, game.myBundle.get("played"), 50f, 340f);
+        game.bitmapFont.draw(game.batch, "" + game.prefs.getInteger("gamesPlayed", 0), 50f, 300f);
         game.batch.end();
     }
 
@@ -83,12 +82,16 @@ public class StatsScreen implements Screen {
                 dispose();
             }
         }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            game.setScreen(new MenuScreen(game));
+            dispose();
+        }
     }
 
     @Override
     public void show() {
         Gdx.input.setCatchBackKey(true);
-
     }
 
     @Override

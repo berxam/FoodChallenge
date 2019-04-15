@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.utils.I18NBundle;
+
+import java.util.Locale;
 
 public class FoodChallenge extends Game {
 	SpriteBatch batch;
@@ -14,6 +17,9 @@ public class FoodChallenge extends Game {
 
     FreeTypeFontGenerator freeTypeFontGenerator;
     BitmapFont bitmapFont;
+
+	Locale locale;
+	I18NBundle myBundle;
 
 	@Override
 	public void create () {
@@ -28,7 +34,14 @@ public class FoodChallenge extends Game {
         parameter.borderWidth = 2;
         bitmapFont = freeTypeFontGenerator.generateFont(parameter);
 
+		setBundle(Locale.getDefault());
+
 		setScreen(new MenuScreen(this));
+	}
+
+	public void setBundle(Locale lang) {
+		locale = lang;
+		myBundle = I18NBundle.createBundle(Gdx.files.internal("MyBundle"), locale);
 	}
 
 	@Override

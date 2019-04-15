@@ -32,12 +32,11 @@ public class GameScreen implements Screen {
     private Music backgroundMusic;
     private Sound eatsound;
     private Texture banner;
-    private Texture retryTexture;
-    private Texture menuTexture;
-    private Texture recipeTexture;
+    private Texture btnTexture;
     private Rectangle retryButton;
     private Rectangle menuButton;
     private Rectangle recipeButton;
+    private Rectangle nextButton;
 
     private String level;
     private TiledMap tiledmap;
@@ -162,7 +161,7 @@ public class GameScreen implements Screen {
                 player.getPlayerRectangle().getWidth(),
                 player.getPlayerRectangle().getHeight());
         game.batch.draw(banner, 0f, bannerPosY);
-        game.bitmapFont.draw(game.batch, "HP: " + HP, 25f, scorePosY);
+        game.bitmapFont.draw(game.batch, game.myBundle.get("score") + HP, 25f, scorePosY);
         game.batch.end();
     }
 
@@ -273,18 +272,17 @@ public class GameScreen implements Screen {
      * Creates retry & menu buttons.
      */
     private void createBtns() {
-        retryTexture = new Texture("gameOver.png");
-        menuTexture = new Texture("menuBtn.png");
+        btnTexture = new Texture("gameOver.png");
         retryButton = new Rectangle(65f, bannerPosY-275f,
-                retryTexture.getWidth(), retryTexture.getHeight());
-        menuButton = new Rectangle(65f, bannerPosY-475f,
-                menuTexture.getWidth(), menuTexture.getHeight());
+                btnTexture.getWidth(), btnTexture.getHeight());
+        menuButton = new Rectangle(65f, bannerPosY-400f,
+                btnTexture.getWidth(), btnTexture.getHeight());
 
         if (completed) {
-        //    create Next Level button
-            recipeTexture = new Texture("showRecipe.png");
-            recipeButton = new Rectangle(65f, bannerPosY-675f,
-                    recipeTexture.getWidth(), recipeTexture.getHeight());
+            recipeButton = new Rectangle(65f, bannerPosY-575f,
+                    btnTexture.getWidth(), btnTexture.getHeight());
+            nextButton = new Rectangle(65f, bannerPosY-700f,
+                    btnTexture.getWidth(), btnTexture.getHeight());
         }
 
         btnsCreated = true;
@@ -295,21 +293,33 @@ public class GameScreen implements Screen {
      */
     private void drawButtons() {
         game.batch.begin();
-        game.batch.draw(retryTexture,
+        game.batch.draw(btnTexture,
                 retryButton.getX(), retryButton.getY(),
-                retryTexture.getWidth(),
-                retryTexture.getHeight());
-        game.batch.draw(menuTexture,
+                btnTexture.getWidth(),
+                btnTexture.getHeight());
+        game.batch.draw(btnTexture,
                 menuButton.getX(), menuButton.getY(),
-                menuTexture.getWidth(),
-                menuTexture.getHeight());
-        game.bitmapFont.draw(game.batch, getFeedback(), 65f, bannerPosY - 100f);
+                btnTexture.getWidth(),
+                btnTexture.getHeight());
+
+        game.bitmapFont.draw(game.batch, game.myBundle.get("retry"), retryButton.getX() + 25f, retryButton.getY() + 65f);
+        game.bitmapFont.draw(game.batch, game.myBundle.get("menu"), menuButton.getX() + 25f, menuButton.getY() + 65f);
+
+        // If this level is already completed, don't print feedback
+        if (!game.prefs.getBoolean(level)) {
+            game.bitmapFont.draw(game.batch, getFeedback(), 65f, bannerPosY - 100f);
+        }
 
         if (completed) {
-        //     draw Next Level button
-             game.batch.draw(recipeTexture,
-                     recipeButton.getX(), recipeButton.getY(),
-                     recipeTexture.getWidth(), recipeTexture.getHeight());
+            game.batch.draw(btnTexture,
+                    nextButton.getX(), nextButton.getY(),
+                    btnTexture.getWidth(), btnTexture.getHeight());
+            game.batch.draw(btnTexture,
+                    recipeButton.getX(), recipeButton.getY(),
+                    btnTexture.getWidth(), btnTexture.getHeight());
+
+            game.bitmapFont.draw(game.batch, game.myBundle.get("nextlvl"), nextButton.getX() + 25f, nextButton.getY() + 65f);
+            game.bitmapFont.draw(game.batch, game.myBundle.get("showrecipe"), recipeButton.getX() + 25f, recipeButton.getY() + 65f);
         }
 
         game.batch.end();
@@ -324,9 +334,9 @@ public class GameScreen implements Screen {
         String feedback;
 
         if (completed) {
-            feedback = "Resepti avattu!";
+            feedback = game.myBundle.get("unlocked");
         } else {
-            feedback = "Haha et osaa";
+            feedback = game.myBundle.get("needmore");
         }
 
         return feedback;
@@ -343,7 +353,7 @@ public class GameScreen implements Screen {
             if (retryButton.contains(touchPos.x, touchPos.y)) {
                 saveScore();
                 backgroundMusic.stop();
-                game.setScreen(new SelectLevel(game));
+                game.setScreen(new GameScreen(game, level, mapHeight));
             }
 
             if (menuButton.contains(touchPos.x, touchPos.y)) {
@@ -360,6 +370,13 @@ public class GameScreen implements Screen {
                     game.setScreen(new RecipeScreen(game));
                     dispose();
                 }
+                /*
+                if (nextButton.contains(touchPos.x, touchPos.y)) {
+                    saveScore();
+                    backgroundMusic.stop();
+                    game.setScreen(new GameScreen(game, nextLevel(), 6900f));
+                    dispose();
+                }*/
             }
         }
     }
@@ -402,6 +419,8 @@ public class GameScreen implements Screen {
         if (completed) {
             game.prefs.putBoolean(level, true); // unlocks recipe
         }
+
+        game.prefs.putInteger("gamesPlayed", game.prefs.getInteger("gamesPlayed") + 1);
 
         game.prefs.flush();
     }

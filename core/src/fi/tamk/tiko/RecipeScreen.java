@@ -81,7 +81,7 @@ public class RecipeScreen implements Screen {
     private void drawEverything() {
         game.batch.begin();
         game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
-        game.bitmapFont.draw(game.batch, "RECIPES", 125f, 725f);
+        game.bitmapFont.draw(game.batch, game.myBundle.get("recipes"), 50f, 725f);
 
         if (game.prefs.getBoolean("map2.tmx", false)) {
             //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);

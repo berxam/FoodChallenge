@@ -58,10 +58,6 @@ public class SelectLevel implements Screen {
         updateCamera();
         drawEverything();
         checkPresses();
-        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
-            game.setScreen(new MenuScreen(game));
-            dispose();
-        }
     }
 
     private void clearScreen() {
@@ -77,6 +73,7 @@ public class SelectLevel implements Screen {
     private void drawEverything() {
         game.batch.begin();
         game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
+        game.bitmapFont.draw(game.batch, game.myBundle.get("select"), 50f, 725f);
         game.batch.end();
     }
 
@@ -110,6 +107,11 @@ public class SelectLevel implements Screen {
                 game.setScreen(new GameScreen(game, "map4_180.tmx", 6900f));
                 dispose();
             }
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            game.setScreen(new MenuScreen(game));
+            dispose();
         }
     }
 
