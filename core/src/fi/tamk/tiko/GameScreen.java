@@ -55,6 +55,7 @@ public class GameScreen implements Screen {
     private boolean gameIsOn = true;
     private boolean completed = false;
     private boolean btnsCreated = false;
+    private boolean nextCreated = false;
 
     /**
      * Creates camera, player and texture.
@@ -281,8 +282,14 @@ public class GameScreen implements Screen {
         if (completed) {
             recipeButton = new Rectangle(65f, bannerPosY-575f,
                     btnTexture.getWidth(), btnTexture.getHeight());
-            nextButton = new Rectangle(65f, bannerPosY-700f,
-                    btnTexture.getWidth(), btnTexture.getHeight());
+
+            // If this isn't the last map, create "Next level" button
+            if (!level.equals("map3.tmx")) { // CHANGE "2" to "28" when maps are renamed
+                nextButton = new Rectangle(65f, bannerPosY - 700f,
+                        btnTexture.getWidth(), btnTexture.getHeight());
+
+                nextCreated = true;
+            }
         }
 
         btnsCreated = true;
@@ -312,14 +319,16 @@ public class GameScreen implements Screen {
 
         if (completed) {
             game.batch.draw(btnTexture,
-                    nextButton.getX(), nextButton.getY(),
-                    btnTexture.getWidth(), btnTexture.getHeight());
-            game.batch.draw(btnTexture,
                     recipeButton.getX(), recipeButton.getY(),
                     btnTexture.getWidth(), btnTexture.getHeight());
-
-            game.bitmapFont.draw(game.batch, game.myBundle.get("nextlvl"), nextButton.getX() + 25f, nextButton.getY() + 65f);
             game.bitmapFont.draw(game.batch, game.myBundle.get("showrecipe"), recipeButton.getX() + 25f, recipeButton.getY() + 65f);
+
+            if (nextCreated) {
+                game.batch.draw(btnTexture,
+                        nextButton.getX(), nextButton.getY(),
+                        btnTexture.getWidth(), btnTexture.getHeight());
+                game.bitmapFont.draw(game.batch, game.myBundle.get("nextlvl"), nextButton.getX() + 25f, nextButton.getY() + 65f);
+            }
         }
 
         game.batch.end();
@@ -370,13 +379,15 @@ public class GameScreen implements Screen {
                     game.setScreen(new RecipeScreen(game));
                     dispose();
                 }
-                /*
-                if (nextButton.contains(touchPos.x, touchPos.y)) {
-                    saveScore();
-                    backgroundMusic.stop();
-                    game.setScreen(new GameScreen(game, nextLevel(), 6900f));
-                    dispose();
-                }*/
+
+                if (nextCreated) {
+                    if (nextButton.contains(touchPos.x, touchPos.y)) {
+                        saveScore();
+                        backgroundMusic.stop();
+                        game.setScreen(new GameScreen(game, nextLevel(), 6900f));
+                        dispose();
+                    }
+                }
             }
         }
     }
@@ -423,6 +434,13 @@ public class GameScreen implements Screen {
         game.prefs.putInteger("gamesPlayed", game.prefs.getInteger("gamesPlayed") + 1);
 
         game.prefs.flush();
+    }
+
+    private String nextLevel() {
+        int lvlNumber = Integer.parseInt(level.replaceAll("[\\D]", ""));
+        lvlNumber++;
+
+        return "map" + lvlNumber + ".tmx";
     }
 
     @Override
