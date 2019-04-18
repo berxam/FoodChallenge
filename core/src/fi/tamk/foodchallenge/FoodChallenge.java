@@ -35,6 +35,7 @@ public class FoodChallenge extends Game {
         bitmapFont = freeTypeFontGenerator.generateFont(parameter);
 
 		setBundle(Locale.getDefault());
+		prefs.putString("language", "fi");
 
 		setScreen(new MenuScreen(this));
 	}
