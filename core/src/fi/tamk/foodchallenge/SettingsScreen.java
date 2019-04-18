@@ -127,9 +127,11 @@ public class SettingsScreen implements Screen {
             if (langButton.contains(touchPos.x, touchPos.y)) {
                 if (language.equals("English")) {
                     language = "suomi";
+                    game.prefs.putString("language", "fin");
                     game.setBundle(game.locale.getDefault());
                 } else {
                     language = "English";
+                    game.prefs.putString("language", "en");
                     game.setBundle(new Locale("en", "US"));
                 }
             }
