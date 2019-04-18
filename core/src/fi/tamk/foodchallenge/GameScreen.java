@@ -384,7 +384,7 @@ public class GameScreen implements Screen {
                     if (nextButton.contains(touchPos.x, touchPos.y)) {
                         saveScore();
                         backgroundMusic.stop();
-                        game.setScreen(new GameScreen(game, nextLevel(), 6900f));
+                        game.setScreen(new GameScreen(game, nextLevel(), mapHeight()));
                         dispose();
                     }
                 }
@@ -436,11 +436,26 @@ public class GameScreen implements Screen {
         game.prefs.flush();
     }
 
+    int lvlNumber;
+
     private String nextLevel() {
-        int lvlNumber = Integer.parseInt(level.replaceAll("[\\D]", ""));
+        lvlNumber = Integer.parseInt(level.replaceAll("[\\D]", ""));
         lvlNumber++;
 
         return "map" + lvlNumber + ".tmx";
+    }
+
+    private float mapHeight() {
+        float h;
+
+        switch(lvlNumber) {
+            case 2: h = 6900f; break;
+            case 3: h = 6900f; break;
+            default:
+                h = 500f;
+        }
+
+        return h;
     }
 
     @Override
