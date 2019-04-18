@@ -122,7 +122,12 @@ public class RecipeScreen implements Screen {
                 if (game.prefs.getBoolean("map2.tmx", false)) {
                     //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
                     //game.batch.begin();
-                    game.setScreen(new Recipe(game,"resepti1.png"));
+                    if (game.prefs.getString("language").equals("fin")) {
+                        game.setScreen(new Recipe(game,"resepti1.png"));
+                    } else {
+                        game.setScreen(new Recipe(game,"resepti2.png"));
+                    }
+
 
                   //  game.batch.draw(resepti1,0,0);
                     //game.batch.end();
