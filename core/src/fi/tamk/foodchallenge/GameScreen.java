@@ -1,4 +1,4 @@
-package fi.tamk.tiko;
+package fi.tamk.foodchallenge;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

@@ -1,4 +1,4 @@
-package fi.tamk.tiko;
+package fi.tamk.foodchallenge;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -9,11 +9,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-public class SelectLevel implements Screen {
+public class RecipeScreen implements Screen {
     FoodChallenge game;
 
     private Texture background;
-
+    private Rectangle backButton;
     private Rectangle level1;
     private Rectangle level2;
     private Rectangle level3;
@@ -30,11 +30,11 @@ public class SelectLevel implements Screen {
 
     private OrthographicCamera camera;
 
-    SelectLevel(FoodChallenge game) {
+    RecipeScreen(FoodChallenge game) {
         this.game = game;
 
         background = new Texture("LevelSelect.png");
-
+        //backButton = new Rectangle(60, 600, 60f, 20f);
         level1 = new Rectangle(col1, topRow, 75f, 75f);
         level2 = new Rectangle(col2, topRow, 75f, 75f);
         level3 = new Rectangle(col3, topRow, 75f, 75f);
@@ -42,14 +42,9 @@ public class SelectLevel implements Screen {
         level5 = new Rectangle(col2, secondRow, 75f, 75f);
         level6 = new Rectangle(col1, secondRow, 75f, 75f);
 
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 400, 800);
-    }
-
-    @Override
-    public void show() {
-        Gdx.input.setCatchBackKey(true);
-
     }
 
     @Override
@@ -58,37 +53,73 @@ public class SelectLevel implements Screen {
         updateCamera();
         drawEverything();
         checkPresses();
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            game.setScreen(new MenuScreen(game));
+            dispose();
+        }
     }
 
+    /**
+     * Clears the screen.
+     */
     private void clearScreen() {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
+    /**
+     * Updates camera and sets batch projection matrix.
+     */
     private void updateCamera() {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
     }
 
+    /**
+     * Draws placeholder "buttons" aka strings if they're unlocked.
+     */
     private void drawEverything() {
         game.batch.begin();
         game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
-        game.bitmapFont.draw(game.batch, game.myBundle.get("select"), 50f, 725f);
+        game.bitmapFont.draw(game.batch, game.myBundle.get("recipes"), 50f, 725f);
+
+        if (game.prefs.getBoolean("map2.tmx", false)) {
+            //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
+        }
+
+        if (game.prefs.getBoolean("map3.tmx", false)) {
+           // game.bitmapFont.draw(game.batch, "2nd recipe link", 60f, 550f);
+        }
+
         game.batch.end();
     }
 
+    /**
+     * Checks if screen is pressed and goes to menu if so.
+     *
+     * Recipe buttons will be added here and clicking them
+     * will take the player to view the recipe.
+     */
     private void checkPresses() {
         if(Gdx.input.justTouched()) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
 
+            //if (backButton.contains(touchPos.x, touchPos.y)) {
+             //   Gdx.net.openURI("https://www.k-ruoka.fi/reseptit/feta-parsapasteijat");
+            //    dispose();
+           // }
             if (level1.contains(touchPos.x, touchPos.y)) {
-                game.setScreen(new GameScreen(game, "map2.tmx", 6900f));
-                dispose();
+                if (game.prefs.getBoolean("map4_180.tmx", false)) {
+                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
+
+                    Gdx.net.openURI("https://www.k-ruoka.fi/reseptit/feta-parsapasteijat");
+                    dispose();
+                }
             }
 
             if (level2.contains(touchPos.x, touchPos.y)) {
-                game.setScreen(new GameScreen(game, "map3.tmx", 6900f));
+                Gdx.net.openURI("https://www.k-ruoka.fi/reseptit/kasvisempanadat");
                 dispose();
             }
             if (level3.contains(touchPos.x, touchPos.y)) {
@@ -108,11 +139,12 @@ public class SelectLevel implements Screen {
                 dispose();
             }
         }
+    }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
-            game.setScreen(new MenuScreen(game));
-            dispose();
-        }
+    @Override
+    public void show() {
+        Gdx.input.setCatchBackKey(true);
+
     }
 
     @Override
@@ -140,4 +172,3 @@ public class SelectLevel implements Screen {
 
     }
 }
-

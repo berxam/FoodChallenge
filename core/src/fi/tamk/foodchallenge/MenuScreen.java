@@ -1,7 +1,6 @@
-package fi.tamk.tiko;
+package fi.tamk.foodchallenge;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -9,31 +8,27 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-public class StatsScreen implements Screen {
+public class MenuScreen implements Screen {
     FoodChallenge game;
 
     private Texture background;
-    private Rectangle backButton;
 
-    private int highScore;
-    private int second;
-    private int third;
-    private int fourth;
-    private int fifth;
+    private Rectangle play;
+    private Rectangle recipes;
+    private Rectangle stats;
+    private Rectangle settings;
 
     private OrthographicCamera camera;
 
-    StatsScreen(FoodChallenge game) {
+    MenuScreen (FoodChallenge game) {
         this.game = game;
 
-        background = new Texture("Statistics.png");
-        backButton = new Rectangle(0, 0, 400f, 800f);
+        background = new Texture("MainMenu.png");
 
-        highScore = game.prefs.getInteger("highscore", 0);
-        second = game.prefs.getInteger("score2", 0);
-        third = game.prefs.getInteger("score3", 0);
-        fourth = game.prefs.getInteger("score4", 0);
-        fifth = game.prefs.getInteger("score5", 0);
+        play = new Rectangle(45f, 476f, 303f, 62f);
+        recipes = new Rectangle(45f, 378f, 303f, 62f);
+        stats = new Rectangle(45f, 280f, 303f, 62f);
+        settings = new Rectangle(45f, 180f, 303f, 62f);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 400, 800);
@@ -56,36 +51,33 @@ public class StatsScreen implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
     }
-
     private void drawEverything() {
         game.batch.begin();
         game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
-        game.bitmapFont.draw(game.batch, game.myBundle.get("stats"), 50f, 725f);
-        game.bitmapFont.draw(game.batch, "TOP5 " + game.myBundle.get("scores"), 50f, 600f);
-        game.bitmapFont.draw(game.batch, "1: " + highScore, 50f, 560f);
-        game.bitmapFont.draw(game.batch, "2: " + second, 50f, 520f);
-        game.bitmapFont.draw(game.batch, "3: " + third, 50f, 480f);
-        game.bitmapFont.draw(game.batch, "4: " + fourth, 50f, 440f);
-        game.bitmapFont.draw(game.batch, "5: " + fifth, 50f, 400f);
-        game.bitmapFont.draw(game.batch, game.myBundle.get("played"), 50f, 340f);
-        game.bitmapFont.draw(game.batch, "" + game.prefs.getInteger("gamesPlayed", 0), 50f, 300f);
+        game.bitmapFont.draw(game.batch, game.myBundle.get("play"), 80f, 530f);
+        game.bitmapFont.draw(game.batch, game.myBundle.get("recipes"), 80f, 425f);
+        game.bitmapFont.draw(game.batch, game.myBundle.get("stats"), 80f, 323f);
+        game.bitmapFont.draw(game.batch, game.myBundle.get("settings"), 80f, 224f);
         game.batch.end();
     }
-
     private void checkPresses() {
         if(Gdx.input.justTouched()) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
 
-            if (backButton.contains(touchPos.x, touchPos.y)) {
-                game.setScreen(new MenuScreen(game));
+            if (play.contains(touchPos.x, touchPos.y)) {
+                game.setScreen(new SelectLevel(game));
+                dispose();
+            } else if (recipes.contains(touchPos.x, touchPos.y)) {
+                game.setScreen(new RecipeScreen(game));
+                dispose();
+            } else if (stats.contains(touchPos.x, touchPos.y)) {
+                game.setScreen(new StatsScreen(game));
+                dispose();
+            } else if (settings.contains(touchPos.x, touchPos.y)) {
+                game.setScreen(new SettingsScreen(game));
                 dispose();
             }
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
-            game.setScreen(new MenuScreen(game));
-            dispose();
         }
     }
 
