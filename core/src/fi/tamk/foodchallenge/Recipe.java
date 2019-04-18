@@ -1,4 +1,4 @@
-package fi.tamk.tiko;
+package fi.tamk.foodchallenge;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -6,41 +6,22 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
 
-public class RecipeScreen implements Screen {
+public class Recipe implements Screen {
     FoodChallenge game;
 
+    private Texture recipeImage;
     private Texture background;
-    private Rectangle backButton;
-    private Rectangle level1;
-    private Rectangle level2;
-    private Rectangle level3;
-    private Rectangle level4;
-    private Rectangle level5;
-    private Rectangle level6;
-
-    private float topRow = 600f;
-    private float secondRow = 510f;
-    private float col1 = 20f;
-    private float col2 = 115f;
-    private float col3 = 210f;
-    private float col4 = 305f;
 
     private OrthographicCamera camera;
 
-    RecipeScreen(FoodChallenge game) {
+    Recipe(FoodChallenge game,String recipe) {
         this.game = game;
 
         background = new Texture("LevelSelect.png");
+        recipeImage = new Texture(recipe);
         //backButton = new Rectangle(60, 600, 60f, 20f);
-        level1 = new Rectangle(col1, topRow, 75f, 75f);
-        level2 = new Rectangle(col2, topRow, 75f, 75f);
-        level3 = new Rectangle(col3, topRow, 75f, 75f);
-        level4 = new Rectangle(col4, topRow, 75f, 75f);
-        level5 = new Rectangle(col2, secondRow, 75f, 75f);
-        level6 = new Rectangle(col1, secondRow, 75f, 75f);
+
 
 
         camera = new OrthographicCamera();
@@ -52,7 +33,7 @@ public class RecipeScreen implements Screen {
         clearScreen();
         updateCamera();
         drawEverything();
-        checkPresses();
+       // checkPresses();
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
             game.setScreen(new MenuScreen(game));
             dispose();
@@ -81,15 +62,17 @@ public class RecipeScreen implements Screen {
     private void drawEverything() {
         game.batch.begin();
         game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
-        game.bitmapFont.draw(game.batch, "RECIPES", 125f, 725f);
 
-        if (game.prefs.getBoolean("map2.tmx", false)) {
+        game.batch.draw(recipeImage,0,0);
+        //game.bitmapFont.draw(game.batch, "RECIPES", 125f, 725f);
+
+        //if (game.prefs.getBoolean("map2.tmx", false)) {
             //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-        }
+       // }
 
-        if (game.prefs.getBoolean("map3.tmx", false)) {
-           // game.bitmapFont.draw(game.batch, "2nd recipe link", 60f, 550f);
-        }
+        //if (game.prefs.getBoolean("map3.tmx", false)) {
+            // game.bitmapFont.draw(game.batch, "2nd recipe link", 60f, 550f);
+       // }
 
         game.batch.end();
     }
@@ -100,16 +83,62 @@ public class RecipeScreen implements Screen {
      * Recipe buttons will be added here and clicking them
      * will take the player to view the recipe.
      */
+
+    /*
     private void checkPresses() {
         if(Gdx.input.justTouched()) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
 
             //if (backButton.contains(touchPos.x, touchPos.y)) {
-             //   Gdx.net.openURI("https://www.k-ruoka.fi/reseptit/feta-parsapasteijat");
+            //   Gdx.net.openURI("https://www.k-ruoka.fi/reseptit/feta-parsapasteijat");
             //    dispose();
-           // }
+            // }
             if (level1.contains(touchPos.x, touchPos.y)) {
+                if (game.prefs.getBoolean("map2.tmx", false)) {
+                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
+                    game.batch.begin();
+
+                    game.batch.draw(resepti1,0,0);
+                    game.batch.end();
+
+                    dispose();
+                }
+            }
+
+            if (level2.contains(touchPos.x, touchPos.y)) {
+                if (game.prefs.getBoolean("map3.tmx", false)) {
+                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
+
+                    Gdx.net.openURI("https://www.k-ruoka.fi/reseptit/feta-parsapasteijat");
+                    dispose();
+                }
+            }
+            if (level3.contains(touchPos.x, touchPos.y)) {
+                if (game.prefs.getBoolean("map1_135.tmx", false)) {
+                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
+
+                    Gdx.net.openURI("https://www.k-ruoka.fi/reseptit/feta-parsapasteijat");
+                    dispose();
+                }
+            }
+            if (level4.contains(touchPos.x, touchPos.y)) {
+                if (game.prefs.getBoolean("map2_150.tmx", false)) {
+                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
+
+                    Gdx.net.openURI("https://www.k-ruoka.fi/reseptit/feta-parsapasteijat");
+                    dispose();
+                }
+            }
+            if (level5.contains(touchPos.x, touchPos.y)) {
+                if (game.prefs.getBoolean("map3_150.tmx", false)) {
+                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
+
+                    Gdx.net.openURI("https://www.k-ruoka.fi/reseptit/feta-parsapasteijat");
+                    dispose();
+                }
+            }
+            if (level6.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map4_180.tmx", false)) {
                     //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
 
@@ -117,29 +146,10 @@ public class RecipeScreen implements Screen {
                     dispose();
                 }
             }
-
-            if (level2.contains(touchPos.x, touchPos.y)) {
-                Gdx.net.openURI("https://www.k-ruoka.fi/reseptit/kasvisempanadat");
-                dispose();
-            }
-            if (level3.contains(touchPos.x, touchPos.y)) {
-                game.setScreen(new GameScreen(game, "map1_135.tmx", 6900f));
-                dispose();
-            }
-            if (level4.contains(touchPos.x, touchPos.y)) {
-                game.setScreen(new GameScreen(game, "map2_150.tmx", 6900f));
-                dispose();
-            }
-            if (level5.contains(touchPos.x, touchPos.y)) {
-                game.setScreen(new GameScreen(game, "map3_150.tmx", 6900f));
-                dispose();
-            }
-            if (level6.contains(touchPos.x, touchPos.y)) {
-                game.setScreen(new GameScreen(game, "map4_180.tmx", 6900f));
-                dispose();
-            }
         }
+
     }
+    */
 
     @Override
     public void show() {

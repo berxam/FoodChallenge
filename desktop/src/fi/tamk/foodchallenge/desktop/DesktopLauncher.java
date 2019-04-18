@@ -1,8 +1,8 @@
-package fi.tamk.tiko.desktop;
+package fi.tamk.foodchallenge.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import fi.tamk.tiko.FoodChallenge;
+import fi.tamk.foodchallenge.FoodChallenge;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {

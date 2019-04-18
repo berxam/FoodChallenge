@@ -1,4 +1,4 @@
-package fi.tamk.tiko;
+package fi.tamk.foodchallenge;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -190,7 +190,7 @@ public class GameScreen implements Screen {
 
             if (player.playerRectangle.getBoundingRectangle().overlaps(objectRectangle)) {
                 if (layer == burgerLayer) {
-                    HP -= 30;
+                    HP -= 20;
                     // animaatio pisteistä
                 } else if (layer == carrotLayer) {
                     HP += 5;
@@ -239,7 +239,7 @@ public class GameScreen implements Screen {
 
             if(player.playerControlRectangle.contains(touchPos.x,touchPos.y)) {
                 player.setPlayerX(touchPos.x - 30 ); // Positions the player
-                player.setPlayerY(touchPos.y + 20); // just above the finger.
+                player.setPlayerY(touchPos.y + 30); // just above the finger.
             }
         }
 
