@@ -3,12 +3,12 @@
  <tileset firstgid="1" name="TileSetFA" tilewidth="48" tileheight="48" tilecount="20" columns="5">
   <image source="TileSetFA.png" width="240" height="192"/>
  </tileset>
- <layer id="1" name="Tile Layer 1" width="10" height="150" visible="1">
+ <layer id="1" name="Tile Layer 1" width="10" height="150">
   <data encoding="base64" compression="zlib">
    eJztyqERACAQA7AKVPcfGIPAcD8AEXFpkl7W0YHneZ7neZ7neZ7neZ7neZ7n/fheNuJ8M50=
   </data>
  </layer>
- <layer id="2" name="burgers" width="10" height="150" visible="1">
+ <layer id="2" name="burgers" width="10" height="150">
   <data encoding="base64" compression="zlib">
    eJztl8sOhTAIRLuy/v8X37gwlxhFGAZak56NCxvoTKGP1nLZlX8bIX5X4mq5K7jODdFbqYGxHtHcGXqfYmp67+qKDctvj46Rayyx+LvfjNvaHBre6vRpjmhdReNZ66C//PfkRebG7Elvfq/H1jr01OtZVzKnpqOLL2vPQmvqINqbUkdVn2veZd9frDD2jejZmqUXjcvyBPGl+lyN9DazJy1jkZjI+eZdt375ssk4D6Iw7xss3yL7EMu7EffiijfFifS4Mq/Eeq/Lyokw4m0xw7t78SfDk4q3/kx8ZZ6LRSU/qGECvg==
   </data>
@@ -18,7 +18,7 @@
    eJzt17EOgCAMBNAqbur//y4Lk8ZEwbZHey9hI/RKSAARG4dRHQ0zZx+Rpe/VO4BgZIhg8Q4QFOK+ImZCYL0vFvX+qNG7Bs/ZXWnjzbwva0aA3IfGOyPT22XWXnfvAKTm9A5AIWT579M43idEz7Y2rio79gB9
   </data>
  </layer>
- <objectgroup id="4" name="ObjectLayer" visible="1">
+ <objectgroup id="4" name="ObjectLayer">
   <object id="1" x="106.545" y="6248.55" width="26" height="30.5455"/>
   <object id="2" x="9.66667" y="6057.39" width="26" height="30.5455"/>
   <object id="3" x="107.667" y="5960.73" width="26" height="30.5455"/>

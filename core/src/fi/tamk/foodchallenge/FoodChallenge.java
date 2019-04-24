@@ -14,6 +14,7 @@ import java.util.Locale;
 public class FoodChallenge extends Game {
 	SpriteBatch batch;
 	Preferences prefs;
+	SettingsScreen settingsScreen;
 
     FreeTypeFontGenerator freeTypeFontGenerator;
     BitmapFont bitmapFont;
@@ -36,6 +37,10 @@ public class FoodChallenge extends Game {
 
 		setBundle(Locale.getDefault());
 		prefs.putString("language", "fin");
+		prefs.putBoolean("musicOn",true);
+		prefs.putBoolean("effexOn", true);
+
+
 
 		setScreen(new MenuScreen(this));
 	}

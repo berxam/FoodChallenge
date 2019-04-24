@@ -179,6 +179,7 @@ public class Recipe implements Screen {
 
     @Override
     public void dispose() {
+        recipeImage.dispose();
 
     }
 }

@@ -193,7 +193,7 @@ public class GameScreen implements Screen {
                     HP -= 20;
                     // animaatio pisteistä
                 } else if (layer == carrotLayer) {
-                    HP += 5;
+                    HP += 10;
                 }
 
                 System.out.println(HP);
@@ -323,13 +323,15 @@ public class GameScreen implements Screen {
                     btnTexture.getWidth(), btnTexture.getHeight());
             game.bitmapFont.draw(game.batch, game.myBundle.get("showrecipe"), recipeButton.getX() + 25f, recipeButton.getY() + 65f);
 
-            if (nextCreated) {
-                game.batch.draw(btnTexture,
-                        nextButton.getX(), nextButton.getY(),
-                        btnTexture.getWidth(), btnTexture.getHeight());
-                game.bitmapFont.draw(game.batch, game.myBundle.get("nextlvl"), nextButton.getX() + 25f, nextButton.getY() + 65f);
-            }
+
+          //  if (nextCreated) {
+           //     game.batch.draw(btnTexture,
+           //             nextButton.getX(), nextButton.getY(),
+           //             btnTexture.getWidth(), btnTexture.getHeight());
+           //     game.bitmapFont.draw(game.batch, game.myBundle.get("nextlvl"), nextButton.getX() + 25f, nextButton.getY() + 65f);
+           // }
         }
+
 
         game.batch.end();
     }
@@ -380,14 +382,14 @@ public class GameScreen implements Screen {
                     dispose();
                 }
 
-                if (nextCreated) {
-                    if (nextButton.contains(touchPos.x, touchPos.y)) {
-                        saveScore();
-                        backgroundMusic.stop();
-                        game.setScreen(new GameScreen(game, nextLevel(), mapHeight()));
-                        dispose();
-                    }
-                }
+                //if (nextCreated) {
+                //    if (nextButton.contains(touchPos.x, touchPos.y)) {
+                //        saveScore();
+               //         backgroundMusic.stop();
+               //         game.setScreen(new GameScreen(game, nextLevel(), mapHeight()));
+                //        dispose();
+                //    }
+               // }
             }
         }
     }
@@ -437,6 +439,7 @@ public class GameScreen implements Screen {
     }
 
     int lvlNumber;
+    /*
 
     private String nextLevel() {
         lvlNumber = Integer.parseInt(level.replaceAll("[\\D]", ""));
@@ -444,6 +447,7 @@ public class GameScreen implements Screen {
 
         return "map" + lvlNumber + ".tmx";
     }
+    */
 
     private float mapHeight() {
         float h;
@@ -485,6 +489,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+
 
     }
 }
