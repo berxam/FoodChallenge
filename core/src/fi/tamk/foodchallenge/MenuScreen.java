@@ -9,17 +9,47 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 public class MenuScreen implements Screen {
-    FoodChallenge game;
 
+    /**
+     * Main class of the package, extends Game.
+     */
+    private FoodChallenge game;
+
+    /**
+     * Background picture.
+     */
     private Texture background;
 
+    /**
+     * Play button.
+     */
     private Rectangle play;
+
+    /**
+     * Recipes button.
+     */
     private Rectangle recipes;
+
+    /**
+     * Statistics button.
+     */
     private Rectangle stats;
+
+    /**
+     * Settings button.
+     */
     private Rectangle settings;
 
+    /**
+     * Orthographic camera.
+     */
     private OrthographicCamera camera;
 
+    /**
+     * Creates background, buttons and camera.
+     *
+     * @param game  Current instance of the game.
+     */
     MenuScreen (FoodChallenge game) {
         this.game = game;
 
@@ -42,15 +72,25 @@ public class MenuScreen implements Screen {
         checkPresses();
     }
 
+    /**
+     * Clears screen.
+     */
     private void clearScreen() {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
+    /**
+     * Updates camera.
+     */
     private void updateCamera() {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
     }
+
+    /**
+     * Draws background and fonts on buttons.
+     */
     private void drawEverything() {
         game.batch.begin();
         game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
@@ -60,6 +100,10 @@ public class MenuScreen implements Screen {
         game.bitmapFont.draw(game.batch, game.myBundle.get("settings"), 80f, 224f);
         game.batch.end();
     }
+
+    /**
+     * Checks if menu buttons are pressed and changes screen accordingly.
+     */
     private void checkPresses() {
         if(Gdx.input.justTouched()) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);

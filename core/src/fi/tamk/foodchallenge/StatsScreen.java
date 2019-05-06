@@ -6,14 +6,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
 
 public class StatsScreen implements Screen {
-    FoodChallenge game;
+    private FoodChallenge game;
 
     private Texture background;
-    private Rectangle backButton;
 
     private int highScore;
     private int second;
@@ -27,7 +24,6 @@ public class StatsScreen implements Screen {
         this.game = game;
 
         background = new Texture("Statistics.png");
-        backButton = new Rectangle(0, 0, 400f, 800f);
 
         highScore = game.prefs.getInteger("highscore", 0);
         second = game.prefs.getInteger("score2", 0);
@@ -47,16 +43,25 @@ public class StatsScreen implements Screen {
         checkPresses();
     }
 
+    /**
+     * Clears screen.
+     */
     private void clearScreen() {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
+    /**
+     * Updates camera and sets projection matrix.
+     */
     private void updateCamera() {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
     }
 
+    /**
+     * Draws background image and statistics as fonts.
+     */
     private void drawEverything() {
         game.batch.begin();
         game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
@@ -72,17 +77,10 @@ public class StatsScreen implements Screen {
         game.batch.end();
     }
 
+    /**
+     * Checks if system back button is pressed and goes to menu if so.
+     */
     private void checkPresses() {
-        if(Gdx.input.justTouched()) {
-            Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-            camera.unproject(touchPos);
-
-            if (backButton.contains(touchPos.x, touchPos.y)) {
-                game.setScreen(new MenuScreen(game));
-                dispose();
-            }
-        }
-
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
             game.setScreen(new MenuScreen(game));
             dispose();

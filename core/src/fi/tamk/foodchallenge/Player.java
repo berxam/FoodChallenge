@@ -27,7 +27,6 @@ public class Player  {
 
         createWalkAnimation();
 
-
         playerRectangle = new Sprite(currentFrameTexture,0,0,
                 animationTexture.getWidth() / 8, animationTexture.getHeight() / 4);
         setPlayerX(playerX);

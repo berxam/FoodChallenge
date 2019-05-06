@@ -12,27 +12,62 @@ import com.badlogic.gdx.math.Vector3;
 import java.util.Locale;
 
 public class SettingsScreen implements Screen {
-    FoodChallenge game;
 
+    /**
+     * Main class of the package, extends Game.
+     */
+    private FoodChallenge game;
+
+    /**
+     * Background picture.
+     */
     private Texture background;
 
-    private Rectangle backButton;
+    /**
+     * Button for setting music on or off.
+     */
     private Rectangle musicButton;
+
+    /**
+     * Button for setting sound effects on or off.
+     */
     private Rectangle effexButton;
+
+    /**
+     * Button for change the language.
+     */
     private Rectangle langButton;
 
+    /**
+     * Orthographic camera.
+     */
     private OrthographicCamera camera;
 
+    /**
+     * String for state of music (on/off). Gets rendered as a font.
+     */
     private String musicOnOff;
+
+    /**
+     * String for state of sound effects (on/off). Gets rendered as a font.
+     */
     private String sfxOnOff;
+
+    /**
+     * String for state of language (suomi/English). Gets rendered as a font.
+     */
     private String language;
 
+    /**
+     * Creates background, buttons and camera, loads settings.
+     *
+     * @param game  Current instance of the game.
+     */
     SettingsScreen(FoodChallenge game) {
         this.game = game;
 
         background = new Texture("Settings.png");
 
-        backButton = new Rectangle(0, 600, 400f, 180f);
         musicButton = new Rectangle(0, 520, 400f, 40f);
         effexButton = new Rectangle(0, 480, 400f, 40f);
         langButton = new Rectangle(0, 370, 400f, 80f);
@@ -49,13 +84,11 @@ public class SettingsScreen implements Screen {
         updateCamera();
         drawEverything();
         checkPresses();
-        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
-            game.setScreen(new MenuScreen(game));
-            dispose();
-        }
-
     }
 
+    /**
+     * Load current or default settings for strings shown on screen.
+     */
     private void loadDefaults() {
         if (game.prefs.getBoolean("musicOn", true)) {
             musicOnOff = "ON";
@@ -72,16 +105,25 @@ public class SettingsScreen implements Screen {
         language = game.myBundle.get("currentlang");
     }
 
+    /**
+     * Clears screen.
+     */
     private void clearScreen() {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
+    /**
+     * Updates camera and sets projection matrix.
+     */
     private void updateCamera() {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
     }
 
+    /**
+     * Draws background and fonts.
+     */
     private void drawEverything() {
         game.batch.begin();
         game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
@@ -95,6 +137,11 @@ public class SettingsScreen implements Screen {
         game.batch.end();
     }
 
+    /**
+     * Checks if settings buttons are pressed and acts accordingly.
+     *
+     * Also checks the system back button.
+     */
     private void checkPresses() {
         if(Gdx.input.justTouched()) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -135,17 +182,17 @@ public class SettingsScreen implements Screen {
                     game.setBundle(new Locale("en", "US"));
                 }
             }
+        }
 
-            if (backButton.contains(touchPos.x, touchPos.y)) {
-                game.setScreen(new MenuScreen(game));
-            }
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            game.setScreen(new MenuScreen(game));
+            dispose();
         }
     }
 
     @Override
     public void show() {
         Gdx.input.setCatchBackKey(true);
-
     }
 
     @Override

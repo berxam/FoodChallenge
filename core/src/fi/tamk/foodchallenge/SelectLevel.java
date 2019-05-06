@@ -89,7 +89,6 @@ public class SelectLevel implements Screen {
         level26 = new Rectangle(col2, seventhRow, 75f, 75f);
         level27= new Rectangle(col3, seventhRow, 75f, 75f);
         level28 = new Rectangle(col4, seventhRow, 75f, 75f);
-        //level6 = new Rectangle(col4, secondRow, 75f, 75f);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 400, 800);
@@ -109,16 +108,25 @@ public class SelectLevel implements Screen {
         checkPresses();
     }
 
+    /**
+     * Clears screen.
+     */
     private void clearScreen() {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
+    /**
+     * Updates camera and sets projection matrix.
+     */
     private void updateCamera() {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
     }
 
+    /**
+     * Draws background image and title.
+     */
     private void drawEverything() {
         game.batch.begin();
         game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
@@ -126,6 +134,9 @@ public class SelectLevel implements Screen {
         game.batch.end();
     }
 
+    /**
+     * Checks if level buttons are pressed and goes to GameScreen if so.
+     */
     private void checkPresses() {
         if(Gdx.input.justTouched()) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -244,8 +255,6 @@ public class SelectLevel implements Screen {
                 game.setScreen(new GameScreen(game, "map_28_250.tmx", 12200f));
                 dispose();
             }
-
-
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {

@@ -99,7 +99,6 @@ public class RecipeScreen implements Screen {
     private Rectangle level27;
     private Rectangle level28;
 
-
     private float topRow = 600f;
     private float secondRow = 510f;
     private float thirdRow = 420f;
@@ -175,9 +174,6 @@ public class RecipeScreen implements Screen {
         resepti27en= new Texture("resepti27en.png");
         resepti28en= new Texture("resepti28en.png");
 
-
-
-        //backButton = new Rectangle(60, 600, 60f, 20f);
         level1 = new Rectangle(col1, topRow, 75f, 75f);
         level2 = new Rectangle(col2, topRow, 75f, 75f);
         level3 = new Rectangle(col3, topRow, 75f, 75f);
@@ -206,8 +202,6 @@ public class RecipeScreen implements Screen {
         level26 = new Rectangle(col2, seventhRow, 75f, 75f);
         level27= new Rectangle(col3, seventhRow, 75f, 75f);
         level28 = new Rectangle(col4, seventhRow, 75f, 75f);
-
-
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 400, 800);
@@ -242,43 +236,27 @@ public class RecipeScreen implements Screen {
     }
 
     /**
-     * Draws placeholder "buttons" aka strings if they're unlocked.
+     * Draws background and title.
      */
     private void drawEverything() {
         game.batch.begin();
         game.batch.draw(background, 0, 0, background.getWidth(), background.getHeight());
         game.bitmapFont.draw(game.batch, game.myBundle.get("recipes"), 50f, 725f);
-
-        if (game.prefs.getBoolean("map2.tmx", false)) {
-            //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-        }
-
-        if (game.prefs.getBoolean("map3.tmx", false)) {
-           // game.bitmapFont.draw(game.batch, "2nd recipe link", 60f, 550f);
-        }
-
         game.batch.end();
     }
 
     /**
-     * Checks if screen is pressed and goes to menu if so.
+     * Checks if any of recipe buttons have been pressed.
      *
-     * Recipe buttons will be added here and clicking them
-     * will take the player to view the recipe.
+     * If a button is pressed, goes to detailed view of recipe.
      */
     private void checkPresses() {
         if(Gdx.input.justTouched()) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
 
-            //if (backButton.contains(touchPos.x, touchPos.y)) {
-             //   Gdx.net.openURI("https://www.k-ruoka.fi/reseptit/feta-parsapasteijat");
-            //    dispose();
-           // }
             if (level1.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_1_150.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti1.png"));
                     } else {
@@ -288,8 +266,6 @@ public class RecipeScreen implements Screen {
             }
             if (level2.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_2_150.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti2.png"));
                         System.out.println("fin");
@@ -301,8 +277,6 @@ public class RecipeScreen implements Screen {
             }
             if (level3.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_3_150.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti3.png"));
                     } else {
@@ -312,8 +286,6 @@ public class RecipeScreen implements Screen {
             }
             if (level4.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_4_180.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti4.png"));
                     } else {
@@ -323,8 +295,6 @@ public class RecipeScreen implements Screen {
             }
             if (level5.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_5_150.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti5.png"));
                     } else {
@@ -334,8 +304,6 @@ public class RecipeScreen implements Screen {
             }
             if (level6.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_6_135.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti6.png"));
                     } else {
@@ -345,8 +313,6 @@ public class RecipeScreen implements Screen {
             }
             if (level7.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_7_150.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti7.png"));
                     } else {
@@ -356,8 +322,6 @@ public class RecipeScreen implements Screen {
             }
             if (level8.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_8_170.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti8.png"));
                     } else {
@@ -367,8 +331,6 @@ public class RecipeScreen implements Screen {
             }
             if (level9.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_9_200.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti9.png"));
                     } else {
@@ -378,8 +340,6 @@ public class RecipeScreen implements Screen {
             }
             if (level10.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_10_180.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti10.png"));
                     } else {
@@ -389,8 +349,6 @@ public class RecipeScreen implements Screen {
             }
             if (level11.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_11_150.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti11.png"));
                     } else {
@@ -400,8 +358,6 @@ public class RecipeScreen implements Screen {
             }
             if (level12.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_12_120.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti12.png"));
                     } else {
@@ -411,8 +367,6 @@ public class RecipeScreen implements Screen {
             }
             if (level13.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_13_180.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti13.png"));
                     } else {
@@ -422,8 +376,6 @@ public class RecipeScreen implements Screen {
             }
             if (level14.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_14_150.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti14.png"));
                     } else {
@@ -433,8 +385,6 @@ public class RecipeScreen implements Screen {
             }
             if (level15.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_15_150.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti15.png"));
                     } else {
@@ -444,8 +394,6 @@ public class RecipeScreen implements Screen {
             }
             if (level16.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_16_150.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti16.png"));
                     } else {
@@ -455,8 +403,6 @@ public class RecipeScreen implements Screen {
             }
             if (level17.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_17_160.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti17.png"));
                     } else {
@@ -466,8 +412,6 @@ public class RecipeScreen implements Screen {
             }
             if (level18.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_18_150.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti18.png"));
                     } else {
@@ -477,8 +421,6 @@ public class RecipeScreen implements Screen {
             }
             if (level19.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_19_150.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti19.png"));
                     } else {
@@ -488,8 +430,6 @@ public class RecipeScreen implements Screen {
             }
             if (level20.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_20_150.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti20.png"));
                     } else {
@@ -499,8 +439,6 @@ public class RecipeScreen implements Screen {
             }
             if (level21.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_21_150.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti21.png"));
                     } else {
@@ -510,8 +448,6 @@ public class RecipeScreen implements Screen {
             }
             if (level22.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_22_150.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti22.png"));
                     } else {
@@ -521,8 +457,6 @@ public class RecipeScreen implements Screen {
             }
             if (level23.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_23_150.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti23.png"));
                     } else {
@@ -532,8 +466,6 @@ public class RecipeScreen implements Screen {
             }
             if (level24.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_24_150.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti24.png"));
                     } else {
@@ -543,8 +475,6 @@ public class RecipeScreen implements Screen {
             }
             if (level25.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_25_150.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti25.png"));
                     } else {
@@ -554,8 +484,6 @@ public class RecipeScreen implements Screen {
             }
             if (level26.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_26_150.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti26.png"));
                     } else {
@@ -565,8 +493,6 @@ public class RecipeScreen implements Screen {
             }
             if (level27.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_27_100.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti27.png"));
                     } else {
@@ -576,56 +502,11 @@ public class RecipeScreen implements Screen {
             }
             if (level28.contains(touchPos.x, touchPos.y)) {
                 if (game.prefs.getBoolean("map_28_250.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-                    //game.batch.begin();
                     if (game.prefs.getString("language").equals("fin")) {
                         game.setScreen(new Recipe(game,"resepti28.png"));
                     } else {
                         game.setScreen(new Recipe(game,"resepti28en.png"));
                     }
-                }
-            }
-
-            //////////
-
-            if (level2.contains(touchPos.x, touchPos.y)) {
-                if (game.prefs.getBoolean("map3.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-
-                    game.setScreen(new Recipe(game,"resepti2.png"));
-                    dispose();
-                }
-            }
-            if (level3.contains(touchPos.x, touchPos.y)) {
-                if (game.prefs.getBoolean("map1_135.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-
-                    game.setScreen(new Recipe(game,"resepti3.png"));
-                    dispose();
-                }
-            }
-            if (level4.contains(touchPos.x, touchPos.y)) {
-                if (game.prefs.getBoolean("map2_150.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-
-                    game.setScreen(new Recipe(game,"resepti4.png"));
-                    dispose();
-                }
-            }
-            if (level5.contains(touchPos.x, touchPos.y)) {
-                if (game.prefs.getBoolean("map4_180.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-
-                    game.setScreen(new Recipe(game,"resepti5.png"));
-                    dispose();
-                }
-            }
-            if (level6.contains(touchPos.x, touchPos.y)) {
-                if (game.prefs.getBoolean("map_5_150.tmx", false)) {
-                    //game.bitmapFont.draw(game.batch, "1st recipe link", 60f, 600f);
-
-                    game.setScreen(new Recipe(game,"resepti2.png"));
-                    dispose();
                 }
             }
         }
